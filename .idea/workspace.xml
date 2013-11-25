@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57085d62-b2ca-4234-ab4f-5b2fea4df323" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ViewUtils.iws" />
@@ -11,7 +10,7 @@
     <file path="/DeckardActivityTest.java" changelist="57085d62-b2ca-4234-ab4f-5b2fea4df323" time="1385420745347" ignored="false" />
     <file path="/R.java" changelist="57085d62-b2ca-4234-ab4f-5b2fea4df323" time="1385420885144" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="57085d62-b2ca-4234-ab4f-5b2fea4df323" time="1385420691157" ignored="false" />
-    <file path="/Dummy.txt" changelist="57085d62-b2ca-4234-ab4f-5b2fea4df323" time="1385421355372" ignored="false" />
+    <file path="/Dummy.txt" changelist="57085d62-b2ca-4234-ab4f-5b2fea4df323" time="1385421988245" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -398,6 +397,11 @@
       <created>1385419782320</created>
       <updated>1385419782320</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added git ignore file">
+      <created>1385421992003</created>
+      <updated>1385421992003</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -469,7 +473,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added git ignore file" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -483,6 +487,7 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="Added git ignore file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
