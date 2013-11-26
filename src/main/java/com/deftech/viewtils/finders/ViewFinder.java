@@ -1,37 +1,32 @@
-package com.deftech.viewtils;
+package com.deftech.viewtils.finders;
 
-import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.reflect.Method;
 
-/***
- * First attempt at looking up views based on content
- */
-public class Viewtils {
-    private Viewtils(){}
+public class ViewFinder<T extends View> extends Finder<ViewGroup> {
+    private final Class<T> viewClass;
 
-    public static <T extends View> T findViewWithContent(Activity activity, String content, Class<T> viewClass){
-        View contentView = activity.findViewById(android.R.id.content);
-        if(contentView == null || !(contentView instanceof ViewGroup)) return null;
-        return findViewWithContent((ViewGroup)contentView, content, viewClass);
+    public ViewFinder(ViewGroup group, Class<T> viewClass) {
+        super(group);
+        this.viewClass = viewClass;
     }
 
-    public static <T extends View> T findViewWithContent(ViewGroup group, String content, Class<T> viewClass){
+    public T where(String contents){
         T result = null;
-        for(int i=0; i<group.getChildCount(); i++){
-            View currentView = group.getChildAt(i);
+        for(int i=0; i<getInstance().getChildCount(); i++){
+            View currentView = getInstance().getChildAt(i);
 
             if(currentView instanceof ViewGroup){
                 /* It's a viewgroup, so search in it */
-                result = findViewWithContent((ViewGroup)currentView, content, viewClass);
+                result = new ViewFinder<T>((ViewGroup)currentView, viewClass).where(contents);
             } else {
                 /* Not a viewgroup, check to see if the class has a getText() method */
                 try {
                     Method method = currentView.getClass().getMethod("getText");
                     CharSequence seq = (CharSequence) method.invoke(currentView);
-                    if((content == null && seq == null) || (seq != null && seq.toString().equals(content))
+                    if((contents == null && seq == null) || (seq != null && seq.toString().equals(contents))
                             && viewClass.isInstance(currentView)){
                         result = viewClass.cast(currentView);
                     }
