@@ -1,4 +1,4 @@
-package com.deftech.viewutils;
+package com.deftech.viewtils;
 
 import android.app.Activity;
 import android.view.View;
@@ -9,8 +9,8 @@ import java.lang.reflect.Method;
 /***
  * First attempt at looking up views based on content
  */
-public class ViewUtils {
-    private ViewUtils(){}
+public class Viewtils {
+    private Viewtils(){}
 
     public static <T extends View> T findViewWithContent(Activity activity, String content, Class<T> viewClass){
         View contentView = activity.findViewById(android.R.id.content);

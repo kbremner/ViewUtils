@@ -1,11 +1,11 @@
-package com.deftech.viewutils.test;
+package com.deftech.viewtils.test;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.deftech.viewutils.ViewUtils;
+import com.deftech.viewtils.Viewtils;
 
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -30,7 +30,7 @@ public class SimpleTest {
   @org.junit.Test
   public void testFindTextView() throws Exception {
     Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
-    TextView view = ViewUtils.findViewWithContent(activity, "New Text", TextView.class);
+    TextView view = Viewtils.findViewWithContent(activity, "New Text", TextView.class);
     System.out.println(view.getText());
     assertNotNull(view);
   }
@@ -39,7 +39,7 @@ public class SimpleTest {
     public void testFindButton() throws Exception {
 
         Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
-        Button view = ViewUtils.findViewWithContent(activity, "New Button", Button.class);
+        Button view = Viewtils.findViewWithContent(activity, "New Button", Button.class);
         System.out.println(view.getText());
         assertNotNull(view);
     }

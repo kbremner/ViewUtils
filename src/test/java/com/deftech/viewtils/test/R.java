@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.deftech.viewutils.test;
+package com.deftech.viewtils.test;
 
 public final class R {
   /* To regenerate ids, run this ruby script:
