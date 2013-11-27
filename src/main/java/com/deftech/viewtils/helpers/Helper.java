@@ -15,4 +15,8 @@ public abstract class Helper<T> {
     public static ActivityHelper with(Activity activity){
         return new ActivityHelper(activity);
     }
+    
+    public static ViewGroupHelper with(ViewGroup group){
+        return new ViewGroupHelper(group);
+    }
 }
