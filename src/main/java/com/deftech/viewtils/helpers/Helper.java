@@ -1,6 +1,6 @@
 package com.deftech.viewtils.helpers;
 
-
+import android.view.ViewGroup;
 import android.app.Activity;
 
 public abstract class Helper<T> {
