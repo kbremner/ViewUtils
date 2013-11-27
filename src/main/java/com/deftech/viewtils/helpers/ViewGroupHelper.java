@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import com.deftech.viewtils.finders.ViewFinder;
 
 public class ViewGroupHelper extends Helper<ViewGroup> {
-    ActivityHelper(ViewGroup instance) {
+    ViewGroupHelper(ViewGroup instance) {
         super(instance);
     }
 
