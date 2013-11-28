@@ -4,23 +4,21 @@ import android.view.ViewGroup;
 import android.app.Activity;
 
 
-public class Helper<T,C extends Helper> {
+public class Helper<T> {
     private boolean withRobolectric;
     private final T instance;
     private final Class<T> instanceClass;
-    private final Class<C> helperClass;
 
-    Helper(T instance, Class<T> instanceClass, Class<C> helperClass){
+    Helper(T instance, Class<T> instanceClass){
         this.instance = instance;
         this.instanceClass = instanceClass;
-        this.helperClass = helperClass;
     }
 
     public T getInstance(){ return instance; }
 
-    public C usingRobolectric(){
+    public Helper<T> usingRobolectric(){
         withRobolectric = true;
-        return helperClass.cast(this);
+        return this;
     }
 
     public MethodRunner<T> executeOnUiThread(String methodName){
@@ -36,7 +34,7 @@ public class Helper<T,C extends Helper> {
         return new ViewGroupHelper(group);
     }
 
-    public static <T> Helper<T,Helper> with(T instance, Class<T> instanceClass){
-        return new Helper<T,Helper>(instance, instanceClass, Helper.class);
+    public static <T> Helper<T> with(T instance, Class<T> instanceClass){
+        return new Helper<T>(instance, instanceClass);
     }
 }
