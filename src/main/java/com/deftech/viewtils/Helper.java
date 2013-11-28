@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 import android.app.Activity;
 
 
-public abstract class Helper<T,C extends Helper> {
+public class Helper<T,C extends Helper> {
     private boolean withRobolectric;
     private final T instance;
     private final Class<T> instanceClass;
@@ -36,7 +36,7 @@ public abstract class Helper<T,C extends Helper> {
         return new ViewGroupHelper(group);
     }
 
-    public static <T> GenericHelper<T> with(T instance, Class<T> instanceClass){
-        return new GenericHelper<T>(instance, instanceClass);
+    public static <T> Helper<T,Helper> with(T instance, Class<T> instanceClass){
+        return new Helper<T,Helper>(instance, instanceClass);
     }
 }
