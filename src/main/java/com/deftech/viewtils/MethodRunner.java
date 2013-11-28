@@ -3,6 +3,7 @@ package com.deftech.viewtils;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,36 +27,12 @@ public class MethodRunner<I> {
         this.withRobolectric = withRobolectric;
     }
 
-    public MethodRunner<I> withParameters(Param<?>... params){
-        for (Param<?> param : params) {
-            args.add(param.getInstance());
-            paramTypes.add(param.getInstanceClass());
-        }
-        return this;
-    }
-
     public <P> MethodRunner<I> withParameter(P instance, Class<P> instanceClass){
         args.add(instance);
         paramTypes.add(instanceClass);
         return this;
     }
 
-    public static final class Param<P> {
-        private final Class<P> instanceClass;
-        private final P instance;
-
-        private Param(P instance, Class<P> instanceClass){
-            this.instance = instance;
-            this.instanceClass = instanceClass;
-        }
-
-        public static <P> Param<P> makeParam(P instance, Class<P> instanceClass){
-            return new Param<P>(instance, instanceClass);
-        }
-
-        public P getInstance(){ return instance; }
-        public Class<P> getInstanceClass(){ return instanceClass; }
-    }
 
 
     public <T> T returning(Class<T> returnType) {
@@ -87,6 +64,8 @@ public class MethodRunner<I> {
                 public void run() {
                     try {
                         result.set(method.invoke(i,a));
+                    } catch(InvocationTargetException e){
+                        throwable.set(e.getCause());
                     } catch(Throwable t){
                         throwable.set(t);
                     } finally {
@@ -100,6 +79,8 @@ public class MethodRunner<I> {
                 try {
                     Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
                     robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
+                } catch(InvocationTargetException e){
+                    throw e.getCause();
                 } catch(Exception e){
                     e.printStackTrace();
                 }
