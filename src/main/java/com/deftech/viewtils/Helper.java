@@ -37,6 +37,6 @@ public class Helper<T,C extends Helper> {
     }
 
     public static <T> Helper<T,Helper> with(T instance, Class<T> instanceClass){
-        return new Helper<T,Helper>(instance, instanceClass);
+        return new Helper<T,Helper>(instance, instanceClass, Helper.class);
     }
 }
