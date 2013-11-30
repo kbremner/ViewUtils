@@ -7,6 +7,18 @@ package com.deftech.viewtils.matchers;
 public abstract class BaseMatcher<T> implements Matcher<T> {
 
     /***
+     * Returns a requirement that all objects match
+     * @return A requirement where {@code matchesRequirement} always returns {@code true}
+     */
+    public static Requirement<Object> any(){
+        return new Requirement<Object>() {
+            @Override public boolean matchesRequirement(Object instance) {
+                return true;
+            }
+        };
+    }
+
+    /***
      * Returns a matcher for checkng that an instance is equal to
      * the provided instance, such that {@code instance.equals(otherInstance) == true}
      * @param instance Instance that any provided instance should be equal to
