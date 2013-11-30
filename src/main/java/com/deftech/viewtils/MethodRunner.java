@@ -11,25 +11,31 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-public class MethodRunner<I> {
+public class MethodRunner {
     private final String methodName;
     private List<Object> args = new ArrayList<Object>();
     private List<Class<?>> paramTypes = new ArrayList<Class<?>>();
-    private I instance;
-    private Class<I> instanceClass;
+    private Object instance;
+    private Class<?> instanceClass;
     private boolean withRobolectric;
+    private Handler handler;
 
 
-    MethodRunner(String methodName, I instance, Class<I> instanceClass, boolean withRobolectric){
+    public <I> MethodRunner(String methodName, I instance, Class<I> instanceClass, boolean withRobolectric){
         this.methodName = methodName;
         this.instance = instance;
         this.instanceClass = instanceClass;
         this.withRobolectric = withRobolectric;
     }
 
-    public <P> MethodRunner<I> withParameter(P instance, Class<P> instanceClass){
+    public <P> MethodRunner withParameter(P instance, Class<P> instanceClass){
         args.add(instance);
         paramTypes.add(instanceClass);
+        return this;
+    }
+
+    public MethodRunner withHandler(Handler handler){
+        this.handler = handler;
         return this;
     }
 
@@ -46,13 +52,13 @@ public class MethodRunner<I> {
 
     private Object invoke() {
         try {
-            Handler handler = new Handler(Looper.getMainLooper());
+            handler = (handler == null) ? new Handler(Looper.getMainLooper()) : handler;
 
             Class<?>[] pTypes = new Class<?>[paramTypes.size()];
             pTypes = paramTypes.toArray(pTypes);
             final Method method = instanceClass.getMethod(methodName, pTypes);
 
-            final I i = instance;
+            final Object i = instance;
             final Object[] a = args.toArray();
 
             final AtomicReference<Object> result = new AtomicReference<Object>();

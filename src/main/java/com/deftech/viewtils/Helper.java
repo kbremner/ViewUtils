@@ -21,8 +21,8 @@ public class Helper<T> {
         return this;
     }
 
-    public MethodRunner<T> executeOnUiThread(String methodName){
-        return new MethodRunner<T>(methodName, instance, instanceClass, withRobolectric);
+    public MethodRunner executeOnUiThread(String methodName){
+        return new MethodRunner(methodName, instance, instanceClass, withRobolectric);
     }
 
 

@@ -15,6 +15,7 @@ public class ActivityHelper extends Helper<Activity> {
         return new ViewFinder<T>((ViewGroup)getInstance().findViewById(android.R.id.content), view);
     }
 
+
     @Override
     public ActivityHelper usingRobolectric(){
         super.usingRobolectric();
