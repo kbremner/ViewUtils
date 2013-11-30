@@ -24,11 +24,11 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         for(int i=0; i<group.getChildCount(); i++){
             View currentView = group.getChildAt(i);
 
-            if(currentView instanceof ViewGroup){
-                return matches((ViewGroup)currentView, requirement);
-            } else if(viewClass.isInstance(currentView) &&
+            if(viewClass.isInstance(currentView) &&
                     requirement.match(viewClass.cast(currentView))) {
                 return viewClass.cast(currentView);
+            } else if(currentView instanceof ViewGroup){
+                return matches((ViewGroup)currentView, requirement);
             }
         }
         return result;
