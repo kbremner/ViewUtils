@@ -5,8 +5,7 @@ import android.app.Activity;
 
 
 public class Helper<T> {
-    private boolean withRobolectric;
-    private final T instance;
+    protected final T instance;
     private final Class<T> instanceClass;
 
     Helper(T instance, Class<T> instanceClass){
@@ -14,15 +13,8 @@ public class Helper<T> {
         this.instanceClass = instanceClass;
     }
 
-    public T getInstance(){ return instance; }
-
-    public Helper<T> usingRobolectric(){
-        withRobolectric = true;
-        return this;
-    }
-
     public MethodRunner executeOnUiThread(String methodName){
-        return new MethodRunner(methodName, instance, instanceClass, withRobolectric);
+        return new MethodRunner(methodName, instance, instanceClass);
     }
 
 

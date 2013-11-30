@@ -17,8 +17,8 @@ public final class R {
     else
       original_contents = File.read(path_to_r)
       x = 0xffff
-      new_contents = original_contents.gsub(/class|0x[0-9a-fA-F]+;/) do |match|
-      if match == "class"
+      new_contents = original_contents.gsub(/class|0x[0-9a-fA-F]+;/) do |matchesRequirement|
+      if matchesRequirement == "class"
         x += 0x100
         x = x & 0xffffff00
         x -= 1

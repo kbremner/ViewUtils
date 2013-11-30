@@ -21,16 +21,20 @@ public class MethodRunner {
     private Handler handler;
 
 
-    public <I> MethodRunner(String methodName, I instance, Class<I> instanceClass, boolean withRobolectric){
+    public <I> MethodRunner(String methodName, I instance, Class<I> instanceClass){
         this.methodName = methodName;
         this.instance = instance;
         this.instanceClass = instanceClass;
-        this.withRobolectric = withRobolectric;
     }
 
     public <P> MethodRunner withParameter(P instance, Class<P> instanceClass){
         args.add(instance);
         paramTypes.add(instanceClass);
+        return this;
+    }
+
+    public MethodRunner usingRobolectric(){
+        withRobolectric = true;
         return this;
     }
 

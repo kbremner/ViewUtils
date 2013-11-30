@@ -1,10 +1,9 @@
 package com.deftech.viewtils.matchers;
 
-
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import java.lang.reflect.Method;
 
 public class ViewMatcher<T extends View> extends BaseMatcher<T> {
     private final ViewGroup group;
@@ -15,52 +14,39 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         this.viewClass = viewClass;
     }
 
-    public T matches(Requirement<? super T> comparable){
-        return matches(group, comparable);
+    public T where(Requirement<? super T> comparable){
+        return where(group, comparable);
     }
 
-    private T matches(ViewGroup group, Requirement<? super T> requirement){
+    private T where(ViewGroup group, Requirement<? super T> requirement){
         T result = null;
         for(int i=0; i<group.getChildCount(); i++){
             View currentView = group.getChildAt(i);
 
             if(viewClass.isInstance(currentView) &&
-                    requirement.match(viewClass.cast(currentView))) {
+                    requirement.matchesRequirement(viewClass.cast(currentView))) {
                 return viewClass.cast(currentView);
             } else if(currentView instanceof ViewGroup){
-                return matches((ViewGroup)currentView, requirement);
+                return where((ViewGroup) currentView, requirement);
             }
         }
         return result;
     }
 
-    public T idIs(final int id){
-        return matches(new Requirement<T>(){
-            @Override public boolean match(T t){
+
+    public static Requirement<View> idIs(final int id){
+        return new Requirement<View>(){
+            @Override public boolean matchesRequirement(View t){
                return (t.getId() == id);
             }
-        });
+        };
     }
 
-    public T textIs(final String content){
-        return matches(new Requirement<T>(){
-            @Override
-            public boolean match(T t) {
-                try {
-                    Method method = t.getClass().getMethod("getText");
-                    Object seq = method.invoke(t);
-                    if(CharSequence.class.isInstance(seq)){
-                        if(((content == null && seq == null) ||
-                                (seq != null && seq.toString().equals(content)))){
-                            return true;
-                        }
-                    }
-                } catch (ReflectiveOperationException e) {
-                    e.printStackTrace(); /* Problem calling method */
-                }
-
-                return false;  //Doesn't match
+    public static Requirement<TextView> textIs(final String content){
+        return new Requirement<TextView>() {
+            @Override public boolean matchesRequirement(TextView t) {
+                return (content == null) ? (t.getText() == null) : content.equals(t.getText().toString());
             }
-        });
+        };
     }
 }
