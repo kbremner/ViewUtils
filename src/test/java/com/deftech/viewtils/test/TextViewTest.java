@@ -14,7 +14,7 @@ import java.util.Set;
 
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static com.deftech.viewtils.Helper.with;
-import static com.deftech.viewtils.matchers.BaseMatcher.any;
+import static com.deftech.viewtils.matchers.BaseMatcher.exists;
 import static com.deftech.viewtils.matchers.ViewMatcher.idIs;
 import static com.deftech.viewtils.matchers.ViewMatcher.textIs;
 import static org.junit.Assert.assertEquals;
@@ -84,7 +84,7 @@ public class TextViewTest {
 
     @Test
     public void testFindAllTextViews(){
-        List<TextView> results = with(createActivity()).find(TextView.class).allWhere(any());
+        List<TextView> results = with(createActivity()).find(TextView.class).allWhere(exists());
         assertEquals(results.size(), 2);  // Button, TextView
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 /***
- * A base {@link Matcher} that should be extended by any other matchers.
+ * A base {@link Matcher} that should be extended by other matchers.
  * @param <T> Type that the matcher is used for matching
  */
 public abstract class BaseMatcher<T> implements Matcher<T> {
@@ -24,12 +24,12 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
 
     /***
      * Returns a requirement that all objects match
-     * @return A requirement where {@code matchesRequirement} always returns {@code true}
+     * @return A requirement where {@code matchesRequirement} returns true if {@code instance != null}
      */
-    public static Requirement<Object> any(){
+    public static Requirement<Object> exists(){
         return new Requirement<Object>() {
             @Override public boolean matchesRequirement(Object instance) {
-                return true;
+                return instance != null;
             }
         };
     }

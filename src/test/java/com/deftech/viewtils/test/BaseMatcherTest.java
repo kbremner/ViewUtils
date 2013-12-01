@@ -11,8 +11,7 @@ import org.robolectric.annotation.Config;
 import java.util.List;
 
 import static com.deftech.viewtils.Helper.with;
-import static com.deftech.viewtils.matchers.BaseMatcher.any;
-import static com.deftech.viewtils.matchers.BaseMatcher.is;
+import static com.deftech.viewtils.matchers.BaseMatcher.*;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
 public class BaseMatcherTest {
     @Test
-    public void testMatcherIs() throws Exception {
+    public void testIs() throws Exception {
         Activity activity = createActivity();
         Button b = with(activity).find(Button.class).where(is(activity.findViewById(R.id.button)));
         assertNotNull(b);
@@ -30,7 +29,13 @@ public class BaseMatcherTest {
 
     @Test
     public void testFindAllViews(){
-        List<View> results = with(createActivity()).find(View.class).allWhere(any());
+        List<View> results = with(createActivity()).find(View.class).allWhere(exists());
         assertEquals(results.size(), 3);  // LinearLayout, Button, TextView
+    }
+
+    @Test
+    public void testNot(){
+        List<View> results = with(createActivity()).find(View.class).allWhere(not(exists()));
+        assertEquals(results.size(), 0);
     }
 }

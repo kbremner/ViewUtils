@@ -10,7 +10,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import static com.deftech.viewtils.matchers.BaseMatcher.any;
+import static com.deftech.viewtils.matchers.BaseMatcher.exists;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertNull;
 import static com.deftech.viewtils.Helper.with;
@@ -49,7 +49,7 @@ public class ButtonTest {
 
     @Test
     public void testFindAllButtons(){
-        List<Button> results = with(createActivity()).find(Button.class).allWhere(any());
+        List<Button> results = with(createActivity()).find(Button.class).allWhere(exists());
         assertEquals(results.size(), 1);  // Button
     }
 
