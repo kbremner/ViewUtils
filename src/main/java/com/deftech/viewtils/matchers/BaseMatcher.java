@@ -1,8 +1,6 @@
 package com.deftech.viewtils.matchers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /***
  * A base {@link Matcher} that should be extended by other matchers.
@@ -10,16 +8,19 @@ import java.util.Set;
  */
 public abstract class BaseMatcher<T> implements Matcher<T> {
 
-    public final T where(Requirement<? super T> requirement){
-        Set<Requirement<? super T>> reqList = new HashSet<Requirement<? super T>>();
-        reqList.add(requirement);
-        return where(reqList);
+    public static <T> Requirement<T> matchesAll(final Requirement<? super T>... reqs){
+        return matchesAll(Arrays.asList(reqs));
     }
 
-    public final List<T> allWhere(Requirement<? super T> requirement){
-        Set<Requirement<? super T>> reqList = new HashSet<Requirement<? super T>>();
-        reqList.add(requirement);
-        return allWhere(reqList);
+    public static <T> Requirement<T> matchesAll(final Iterable<Requirement<? super T>> reqs){
+        return new Requirement<T>() {
+            @Override public boolean matchesRequirement(T instance) {
+                for (Requirement<? super T> req : reqs) {
+                    if (!req.matchesRequirement(instance)) return false;
+                }
+                return true;
+            }
+        };
     }
 
     /***

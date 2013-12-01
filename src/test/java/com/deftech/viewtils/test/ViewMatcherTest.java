@@ -62,7 +62,7 @@ public class ViewMatcherTest {
         Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
         reqs.add(textIs("New Text"));
         reqs.add(idIs(R.id.textView));
-        List<TextView> result = with(createActivity()).find(TextView.class).allWhere(reqs);
+        List<TextView> result = with(createActivity()).find(TextView.class).allWhere(matchesAll(reqs));
 
         assertEquals(result.size(), 1);
         assertEquals(result.get(0).getText().toString(), "New Text");
@@ -73,7 +73,7 @@ public class ViewMatcherTest {
         Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
         reqs.add(textIs("New Text"));
         reqs.add(idIs(R.id.button));
-        TextView result = with(createActivity()).find(TextView.class).where(reqs);
+        TextView result = with(createActivity()).find(TextView.class).where(matchesAll(reqs));
         assertNull(result);
     }
 
