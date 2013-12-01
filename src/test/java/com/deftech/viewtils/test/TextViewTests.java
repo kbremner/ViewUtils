@@ -40,6 +40,11 @@ public class TextViewTests {
     }
 
     @Test
+    public void testDontFindTextViewWithId() throws Exception {
+        assertNull(with(createActivity()).find(TextView.class).where(idIs(0)));
+    }
+
+    @Test
     public void testFindTextViewWithCustomReq() throws Exception {
         TextView view = with(createActivity()).find(TextView.class).where(new Requirement<View>() {
             @Override

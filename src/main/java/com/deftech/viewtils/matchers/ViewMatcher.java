@@ -26,7 +26,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         T result = null;
 
         if(requirements == null){
-            throw new NullPointerException("Requirements array cannot be null");
+            throw new NullPointerException("Requirements set cannot be null");
         }
 
         for(int i=0; i<group.getChildCount(); i++){
@@ -64,7 +64,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         List<T> results = new ArrayList<T>();
 
         if(requirements == null){
-            throw new NullPointerException("Requirements array cannot be null");
+            throw new NullPointerException("Requirements set cannot be null");
         }
 
         for(int i=0; i<group.getChildCount(); i++){
@@ -106,6 +106,15 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         return new Requirement<TextView>() {
             @Override public boolean matchesRequirement(TextView t) {
                 return (content == null) ? (t.getText() == null) : content.equals(t.getText().toString());
+            }
+        };
+    }
+
+    public static Requirement<TextView> textIs(final int id){
+        return new Requirement<TextView>() {
+            @Override public boolean matchesRequirement(TextView t) {
+                    String content = t.getContext().getString(id);
+                    return (content != null && t.getText() != null) && content.equals(t.getText().toString());
             }
         };
     }

@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.deftech.viewtils.matchers.BaseMatcher.any;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
+import static org.junit.Assert.assertNull;
 import static org.robolectric.Robolectric.buildActivity;
 import static com.deftech.viewtils.Helper.with;
 import static com.deftech.viewtils.matchers.ViewMatcher.idIs;
@@ -56,5 +57,17 @@ public class ButtonTests {
     public void testFindAllButtons(){
         List<Button> results = with(createActivity()).find(Button.class).allWhere(any());
         assertEquals(results.size(), 1);  // Button
+    }
+
+    @Test
+    public void testFindButtonWithStringId() throws Exception {
+        Button view = with(createActivity()).find(Button.class).where(textIs(R.string.btn_str));
+        assertNotNull(view);
+        assertEquals(view.getText().toString(), view.getContext().getString(R.string.btn_str));
+    }
+
+    @Test
+    public void testDontFindTextViewWithStringId() throws Exception {
+        assertNull(with(createActivity()).find(Button.class).where(textIs(R.string.tv_str)));
     }
 }

@@ -39,7 +39,8 @@ public final class R {
     }
 
     public static final class string {
-        //public static final int howdy = 0x10100;
+        public static final int tv_str = 0x10100;
+        public static final int btn_str = 0x10101;
     }
 
     public static final class plurals {
