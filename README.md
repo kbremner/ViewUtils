@@ -62,7 +62,7 @@ CharSequence text = with(view, TextView.class)
 Roadmap
 ---
 v1.0
-- Add support for lists and spinners
+- Add helper for ListView and Spinner (i.e. to support `with(spinner).click("item")`)
 - Add support for dialogs
 - Add `in(int time, TimeUnit unit)` method for delayed tasks in MethodRunner
 
