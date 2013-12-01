@@ -1,6 +1,5 @@
 package com.deftech.viewtils.test;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 import com.deftech.viewtils.matchers.Requirement;
@@ -14,7 +13,6 @@ import java.util.List;
 import static com.deftech.viewtils.matchers.BaseMatcher.any;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertNull;
-import static org.robolectric.Robolectric.buildActivity;
 import static com.deftech.viewtils.Helper.with;
 import static com.deftech.viewtils.matchers.ViewMatcher.idIs;
 import static com.deftech.viewtils.matchers.ViewMatcher.textIs;
@@ -26,26 +24,22 @@ import static org.junit.Assert.assertNotNull;
 public class ButtonTest {
     @Test
     public void testFindButton() throws Exception {
-        Activity activity = buildActivity(SimpleActivity.class).create().get();
-        Button view = with(activity).find(Button.class).where(textIs("New Button"));
+        Button view = with(createActivity()).find(Button.class).where(textIs("New Button"));
         assertNotNull(view);
         assertEquals(view.getText().toString(), "New Button");
     }
 
     @Test
     public void testFindButtonWithId() throws Exception {
-        Activity activity = buildActivity(SimpleActivity.class).create().get();
-        Button view = with(activity).find(Button.class).where(idIs(R.id.button));
+        Button view = with(createActivity()).find(Button.class).where(idIs(R.id.button));
         assertNotNull(view);
         assertEquals(view.getId(), R.id.button);
     }
 
     @Test
     public void testFindButtonWithCustomReq() throws Exception {
-        Activity activity = buildActivity(SimpleActivity.class).create().get();
-        Button view = with(activity).find(Button.class).where(new Requirement<View>() {
-            @Override
-            public boolean matchesRequirement(View instance) {
+        Button view = with(createActivity()).find(Button.class).where(new Requirement<View>() {
+            @Override public boolean matchesRequirement(View instance) {
                 return instance.getVisibility() == View.VISIBLE;
             }
         });
