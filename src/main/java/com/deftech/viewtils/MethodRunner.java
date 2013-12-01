@@ -21,7 +21,7 @@ public class MethodRunner {
     private Handler handler;
 
 
-    public <I> MethodRunner(String methodName, I instance, Class<I> instanceClass){
+    public MethodRunner(String methodName, Object instance, Class<?> instanceClass){
         this.methodName = methodName;
         this.instance = instance;
         this.instanceClass = instanceClass;

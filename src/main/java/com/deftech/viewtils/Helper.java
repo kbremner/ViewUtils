@@ -4,11 +4,11 @@ import android.view.ViewGroup;
 import android.app.Activity;
 
 
-public class Helper<T> {
-    protected final T instance;
-    private final Class<T> instanceClass;
+public class Helper {
+    protected final Object instance;
+    private final Class<?> instanceClass;
 
-    Helper(T instance, Class<T> instanceClass){
+    Helper(Object instance, Class<?> instanceClass){
         this.instance = instance;
         this.instanceClass = instanceClass;
     }
@@ -26,7 +26,7 @@ public class Helper<T> {
         return new ViewGroupHelper(group);
     }
 
-    public static <T> Helper<T> with(T instance, Class<T> instanceClass){
-        return new Helper<T>(instance, instanceClass);
+    public static <T> Helper with(T instance, Class<T> instanceClass){
+        return new Helper(instance, instanceClass);
     }
 }
