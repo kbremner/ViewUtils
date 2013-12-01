@@ -64,13 +64,13 @@ CharSequence text = with(view, TextView.class)
     .executeOnUiThread("getText")
     .returning(CharSequence.class);
 ```
+*(Note that calling `usingRobolectric()` ensures that `Robolectric.runUiThreadTasksIncludingDelayedTasks()` is called)* 
 - Click on a view:
 
 ```java
 with(activity).click(Button.class, textMatches("Click.*"));
 ```
 
-*(Note that calling `usingRobolectric()` ensures that `Robolectric.runUiThreadTasksIncludingDelayedTasks()` is called)* 
 Roadmap
 ---
 v1.0
