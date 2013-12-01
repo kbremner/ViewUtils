@@ -18,9 +18,7 @@ import java.util.Set;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static com.deftech.viewtils.Helper.with;
 import static com.deftech.viewtils.matchers.TextViewMatcher.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
@@ -140,6 +138,16 @@ public class ViewMatcherTest {
     @Test
     public void testDontFindTextViewWithStringId() {
         assertNull(with(createActivity()).find(Button.class).where(textIs(R.string.tv_str)));
+    }
+
+    @Test
+    public void testClickButtonWithContent() {
+        assertTrue(with(createActivity()).click(Button.class, textIs(R.string.btn_str)));
+    }
+
+    @Test
+    public void testDontClickButtonWithContent() {
+        assertFalse(with(createActivity()).click(Button.class, not(textIs(R.string.btn_str))));
     }
 
 

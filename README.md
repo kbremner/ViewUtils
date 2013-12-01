@@ -64,11 +64,16 @@ CharSequence text = with(view, TextView.class)
     .executeOnUiThread("getText")
     .returning(CharSequence.class);
 ```
+- Click on a view:
+
+```java
+with(activity).click(Button.class, textMatches("Click.*"));
+```
+
 *(Note that calling `usingRobolectric()` ensures that `Robolectric.runUiThreadTasksIncludingDelayedTasks()` is called)* 
 Roadmap
 ---
 v1.0
-- Add helper for ListView and Spinner (i.e. to support `with(spinner).click("item")`)
 - Add support for dialogs
 - Add `in(int time, TimeUnit unit)` method for delayed tasks in MethodRunner
 
