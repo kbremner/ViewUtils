@@ -11,6 +11,6 @@
 
 echo "Installing com.google.android:android from $ANDROID_HOME/platforms"
 mvn -q install:install-file -DgroupId=com.google.android -DartifactId=android \
-  -Dversion=18 -Dpackaging=jar -Dfile="$ANDROID_HOME/platforms/android-18/android.jar"
+  -Dversion=7 -Dpackaging=jar -Dfile="$ANDROID_HOME/platforms/android-7/android.jar"
 
 echo "Done!"
