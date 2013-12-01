@@ -1,4 +1,3 @@
-
 Viewtils [![Build Status](https://travis-ci.org/kbremner/Viewtils.png)](https://travis-ci.org/kbremner/Viewtils)
 =========
 Viewtils is a library to aide in carrying out tasks that are common when testing Android applications.
@@ -17,36 +16,30 @@ API Examples
 - Find a `View` based on ID:
 
 ```java
-View view = with(activity).find(View.class)
-                    .where(idIs(R.id.textView1));
+View view = with(activity).find(View.class).where(idIs(R.id.textView1));
 ```
 - Find a `TextView` based on a regex:
 
 ```java
-Button button = with(viewGroup).find(Button.class)
-                    .where(textMatches("Click.*");
+Button button = with(viewGroup).find(Button.class).where(textMatches("Click.*");
 ```
 - Search using multiple requirements:
 
 ```java
-Set<Requirement<? super TextView>> reqs =
-            new HashSet<Requirement<? super TextView>>();
+Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
 reqs.add(textIs(R.string.some_msg));
 reqs.add(idIs(R.id.textView));
-
 TextView result = with(activity).find(TextView.class).where(reqs);      
 ```
 - Find multiple matches & invert a matcher:
 
 ```java
-List<Button> result = with(activity).find(Button.class)
-    .allWhere(not(textIs(R.string.some_msg)));
+List<Button> result = with(activity).find(Button.class).allWhere(not(textIs(R.string.some_msg)));
 ```
 - Search based on a custom `Requirement`:
 
 ```java
-TextView view = with(activity).find(TextView.class)
-                .where(new Requirement<View>() {
+TextView view = with(activity).find(TextView.class).where(new Requirement<View>() {
     @Override public boolean matchesRequirement(View instance) {
         return instance.getVisibility() == View.VISIBLE;
     }
@@ -70,7 +63,7 @@ Roadmap
 ---
 v1.0
 - Add support for lists and spinners
-- Add support for finding dialogs
+- Add support for dialogs
 - Add `in(int time, TimeUnit unit)` method for delayed tasks in MethodRunner
 
 Maven
@@ -79,7 +72,7 @@ The project will soon be deployed to maven.
 
 Dependencies
 ---
-- Currently the library depends on Android 4.3
+- Android 2.1 (API level 7) or greater
 
 Why Not Use Hamcrest matchers?
 ---
