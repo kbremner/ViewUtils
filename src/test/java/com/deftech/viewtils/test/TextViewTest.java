@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
-public class TextViewTests {
+public class TextViewTest {
 
     @Test
     public void testFindTextView() throws Exception {

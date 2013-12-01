@@ -19,7 +19,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
-public class BaseMatcherTests {
+public class BaseMatcherTest {
     @Test
     public void testMatcherIs() throws Exception {
         Activity activity = createActivity();

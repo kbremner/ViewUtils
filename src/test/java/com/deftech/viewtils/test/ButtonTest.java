@@ -23,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
-public class ButtonTests {
+public class ButtonTest {
     @Test
     public void testFindButton() throws Exception {
         Activity activity = buildActivity(SimpleActivity.class).create().get();
