@@ -1,10 +1,26 @@
 package com.deftech.viewtils.matchers;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /***
  * A base {@link Matcher} that should be extended by any other matchers.
  * @param <T> Type that the matcher is used for matching
  */
 public abstract class BaseMatcher<T> implements Matcher<T> {
+
+    public final T where(Requirement<? super T> requirement){
+        Set<Requirement<? super T>> reqList = new HashSet<Requirement<? super T>>();
+        reqList.add(requirement);
+        return where(reqList);
+    }
+
+    public final List<T> allWhere(Requirement<? super T> requirement){
+        Set<Requirement<? super T>> reqList = new HashSet<Requirement<? super T>>();
+        reqList.add(requirement);
+        return allWhere(reqList);
+    }
 
     /***
      * Returns a requirement that all objects match

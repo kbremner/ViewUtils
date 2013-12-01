@@ -13,10 +13,15 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static com.deftech.viewtils.Helper.with;
 import static com.deftech.viewtils.matchers.ViewMatcher.*;
+import static org.junit.Assert.assertNull;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -112,6 +117,50 @@ public class SimpleTest {
 
     }
 
+    @Test
+    public void testFindAllViews(){
+        Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
+        List<View> results = with(activity).find(View.class).allWhere(any());
+        assertEquals(results.size(), 3);  // LinearLayout, EditText, TextView
+    }
+
+    @Test
+    public void testFindAllTextViews(){
+        Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
+        Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
+        reqs.add(any());
+        List<TextView> results = with(activity).find(TextView.class).allWhere(any());
+        assertEquals(results.size(), 2);  // EditText, TextView
+    }
+
+    @Test
+    public void testFindTextViewsMultpleMatchers(){
+        Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
+        Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
+        reqs.add(textIs("New Text"));
+        reqs.add(idIs(R.id.textView));
+        TextView result = with(activity).find(TextView.class).where(any());
+
+        assertNotNull(result);
+        assertEquals(result.getText().toString(), "New Text");
+    }
+
+    @Test
+    public void testDontFindTextViewsMultpleMatchers(){
+        Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
+        Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
+        reqs.add(textIs("New Text"));
+        reqs.add(idIs(R.id.button));
+        TextView result = with(activity).find(TextView.class).where(reqs);
+        assertNull(result);
+    }
+
+    @Test
+    public void testFindAllTextViewsWithId(){
+        Activity activity = Robolectric.buildActivity(SimpleActivity.class).create().get();
+        List<TextView> results = with(activity).find(TextView.class).allWhere(idIs(R.id.textView));
+        assertEquals(results.size(), 1);  // TextView
+    }
 
 
     public static final class SimpleActivity extends Activity {
