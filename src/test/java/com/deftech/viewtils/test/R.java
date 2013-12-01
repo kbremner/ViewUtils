@@ -8,34 +8,10 @@
 package com.deftech.viewtils.test;
 
 public final class R {
-  /* To regenerate ids, run this ruby script:
-
-    path_to_r = "/path/to/src/test/java/org/robolectric/R.java"
-
-    if path_to_r =~ /^\/path\/to/
-      raise "please change the path to this file!"
-    else
-      original_contents = File.read(path_to_r)
-      x = 0xffff
-      new_contents = original_contents.gsub(/class|0x[0-9a-fA-F]+;/) do |matchesRequirement|
-      if matchesRequirement == "class"
-        x += 0x100
-        x = x & 0xffffff00
-        x -= 1
-        "class"
-      else
-        "0x#{"%x" % (x += 1)};"
-      end
-      end
-      File.open(path_to_r, "w") { |f| f << new_contents }
-    end
-
-   */
-
-
     public static final class id {
         public static final int textView = 0x10000;
         public static final int button = 0x10001;
+        public static final int layout = 0x10002;
     }
 
     public static final class string {

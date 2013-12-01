@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
 public class MethodRunnerTest {
     @Test
-    public void testSetText() throws Exception {
+    public void testSetText() {
         Activity activity = createActivity();
 
         // Get the view

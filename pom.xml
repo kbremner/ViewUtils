@@ -11,7 +11,7 @@
 
     <dependencies>
 
-        <!--main-->
+        <!-- junit & robolectric for testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -19,7 +19,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--android & robolectric-->
         <dependency>
             <groupId>org.robolectric</groupId>
             <artifactId>robolectric</artifactId>
@@ -27,10 +26,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- android to compile against -->
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
-            <version>18</version>
+            <version>7</version>
             <scope>provided</scope>
         </dependency>
 

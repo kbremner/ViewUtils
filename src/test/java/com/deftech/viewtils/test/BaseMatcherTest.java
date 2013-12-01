@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
 public class BaseMatcherTest {
     @Test
-    public void testIs() throws Exception {
+    public void testIs() {
         Activity activity = createActivity();
         Button b = with(activity).find(Button.class).where(is(activity.findViewById(R.id.button)));
         assertNotNull(b);
