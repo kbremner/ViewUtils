@@ -31,7 +31,7 @@ reqs.add(textIs(R.string.some_msg));
 reqs.add(idIs(R.id.textView));
 TextView result = with(activity).find(TextView.class).where(reqs);      
 ```
-- Find multiple matches & invert a matcher:
+- Find multiple matches & invert a `Requirement`:
 
 ```java
 List<Button> result = with(activity).find(Button.class).allWhere(not(textIs(R.string.some_msg)));
