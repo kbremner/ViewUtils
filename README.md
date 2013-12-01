@@ -30,7 +30,7 @@ Button button = with(viewGroup).find(Button.class).where(textMatches("Click.*");
 Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
 reqs.add(textIs(R.string.some_msg));
 reqs.add(idIs(R.id.textView));
-TextView result = with(activity).find(TextView.class).where(reqs);      
+TextView result = with(activity).find(TextView.class).where(matchesAll(reqs));      
 ```
 - Find multiple matches & invert a `Requirement`:
 
