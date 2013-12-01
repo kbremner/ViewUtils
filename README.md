@@ -72,11 +72,6 @@ CharSequence text = with(view, TextView.class)
 with(activity).click(Button.class, textMatches("Click.*"));
 ```
 
-Roadmap
----
-v1.0
-- Add support for dialogs
-
 Maven
 ---
 The project will soon be deployed to maven.
