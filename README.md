@@ -76,7 +76,6 @@ Roadmap
 ---
 v1.0
 - Add support for dialogs
-- Add `in(int time, TimeUnit unit)` method for delayed tasks in MethodRunner
 
 Maven
 ---
