@@ -7,9 +7,9 @@ It aims to not be reliant on instances of classes only accessable under test (i.
 Influences
 ----
 Viewtils has been inspired by a number of very good libraries that are commonly used for testing Android applications:
-- [Robotium]
-- [Robolectric] (also used for testing Viewtils)
-- [Hamcrest]
+- [Robotium](https://code.google.com/p/robotium/)
+- [Robolectric](http://robolectric.org/) (also used for unit testing Viewtils)
+- [Hamcrest](https://code.google.com/p/hamcrest/)
 
 API Examples
 ----
@@ -85,7 +85,3 @@ pre-1.0
 License
 ----
 Apache License Version 2.0
-  
-  [robotium]: https://code.google.com/p/robotium/
-  [robolectric]: http://robolectric.org/
-  [hamcrest]: https://code.google.com/p/hamcrest/
