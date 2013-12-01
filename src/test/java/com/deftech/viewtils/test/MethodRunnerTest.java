@@ -3,13 +3,13 @@ package com.deftech.viewtils.test;
 
 import android.app.Activity;
 import android.widget.TextView;
+import com.deftech.viewtils.matchers.TextViewMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static com.deftech.viewtils.Helper.with;
-import static com.deftech.viewtils.matchers.ViewMatcher.textIs;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -22,7 +22,7 @@ public class MethodRunnerTest {
         Activity activity = createActivity();
 
         // Get the view
-        TextView view = with(activity).find(TextView.class).where(textIs("New Text"));
+        TextView view = with(activity).find(TextView.class).where(TextViewMatcher.textIs("New Text"));
         assertNotNull(view);
         assertEquals(view.getText().toString(), "New Text");
 
@@ -34,7 +34,7 @@ public class MethodRunnerTest {
                 .returningNothing();
 
         // Validate that the change happened
-        view = with(activity).find(TextView.class).where(textIs("Set text"));
+        view = with(activity).find(TextView.class).where(TextViewMatcher.textIs("Set text"));
         assertNotNull(view);
         assertEquals(view.getText().toString(), "Set text");
     }
