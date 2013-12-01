@@ -1,6 +1,6 @@
 Viewtils [![Build Status](https://travis-ci.org/kbremner/Viewtils.png)](https://travis-ci.org/kbremner/Viewtils)
 =========
-Viewtils is a library to aide in carrying out tasks that are common when testing Android applications.
+Viewtils is a library to aide in carrying out tasks that are common when interacting with the UI of an application while it is under test.
 
 It aims to not be reliant on instances of classes only accessable under test (i.e. `Instrumention`). This means that the library can easily be used with other testing frameworks or within an application.
 
