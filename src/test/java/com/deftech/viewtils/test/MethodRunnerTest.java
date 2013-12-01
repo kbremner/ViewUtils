@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.concurrent.TimeUnit;
+
 import static com.deftech.viewtils.Helper.with;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertEquals;
@@ -22,9 +24,9 @@ public class MethodRunnerTest {
         Activity activity = createActivity();
 
         // Get the view
-        TextView view = with(activity).find(TextView.class).where(TextViewMatcher.textIs("New Text"));
+        TextView view = with(activity).find(TextView.class).where(TextViewMatcher.textIs(R.string.tv_str));
         assertNotNull(view);
-        assertEquals(view.getText().toString(), "New Text");
+        assertEquals(view.getText().toString(), view.getContext().getString(R.string.tv_str));
 
         // Change the text
         with(view, TextView.class)
@@ -38,4 +40,28 @@ public class MethodRunnerTest {
         assertNotNull(view);
         assertEquals(view.getText().toString(), "Set text");
     }
+
+    @Test
+    public void testDelayedSetText() {
+        Activity activity = createActivity();
+
+        // Get the view
+        TextView view = with(activity).find(TextView.class).where(TextViewMatcher.textIs(R.string.tv_str));
+        assertNotNull(view);
+        assertEquals(view.getText().toString(), view.getContext().getString(R.string.tv_str));
+
+        // Change the text
+        with(view, TextView.class)
+                .executeOnUiThread("setText")
+                .withParameter("Set text", CharSequence.class)
+                .usingRobolectric()
+                .in(100, TimeUnit.MILLISECONDS)
+                .returningNothing();
+
+        // Validate that the change happened
+        view = with(activity).find(TextView.class).where(TextViewMatcher.textIs("Set text"));
+        assertNotNull(view);
+        assertEquals(view.getText().toString(), "Set text");
+    }
+
 }

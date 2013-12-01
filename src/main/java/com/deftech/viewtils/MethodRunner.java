@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -19,6 +20,8 @@ public class MethodRunner {
     private Class<?> instanceClass;
     private boolean withRobolectric;
     private Handler handler;
+    private Integer time;
+    private TimeUnit unit;
 
 
     public MethodRunner(String methodName, Object instance, Class<?> instanceClass){
@@ -43,7 +46,11 @@ public class MethodRunner {
         return this;
     }
 
-
+    public MethodRunner in(int time, TimeUnit unit){
+        this.time = time;
+        this.unit = unit;
+        return this;
+    }
 
     public <T> T returning(Class<T> returnType) {
         return returnType.cast(invoke());
@@ -69,7 +76,8 @@ public class MethodRunner {
             final AtomicReference<Throwable> throwable = new AtomicReference<Throwable>();
             final AtomicBoolean finished = new AtomicBoolean();
 
-            handler.post(new Runnable() {
+            // Create the runnable to carry out the method invocation
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -82,29 +90,38 @@ public class MethodRunner {
                         finished.set(true);
                     }
                 }
-            });
+            };
 
+            // If it's delayed, post it with the delay, else just post it
+            if(time != null && unit != null) {
+                handler.postDelayed(runnable, unit.toMillis(time));
+            } else {
+                handler.post(runnable);
+            }
 
+            // If using robolectric, advance the looper
             if(withRobolectric){
                 try {
                     Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
                     robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
                 } catch(InvocationTargetException e){
                     throw e.getCause();
-                } catch(Exception e){
-                    e.printStackTrace();
                 }
             }
 
+            // Wait for the method call to finish
             while(!finished.get()){
                 System.out.println("Waiting...");
                 Thread.sleep(100);
             }
 
+            // If the method encountered an exception, throw it
             if(throwable.get() != null) throw throwable.get();
+            // Else return the result
             return result.get();
 
         } catch(Throwable t){
+            // Wrap any throwables in a runtime exception
             throw new RuntimeException("Failed to invoke method", t);
         }
     }

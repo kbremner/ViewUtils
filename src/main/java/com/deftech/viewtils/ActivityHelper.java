@@ -11,6 +11,4 @@ public class ActivityHelper extends ViewGroupHelper {
         super((ViewGroup)instance.findViewById(android.R.id.content));
         this.activity = instance;
     }
-
-    private Activity getActivity() { return activity; }
 }
