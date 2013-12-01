@@ -62,6 +62,7 @@ with(view, TextView.class)
     
 CharSequence text = with(view, TextView.class)
     .executeOnUiThread("getText")
+    .in(3, TimeUnit.SECONDS)
     .returning(CharSequence.class);
 ```
 *(Note that calling `usingRobolectric()` ensures that `Robolectric.runUiThreadTasksIncludingDelayedTasks()` is called)* 
