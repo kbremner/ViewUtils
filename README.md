@@ -10,6 +10,7 @@ Viewtils has been inspired by a number of very good libraries that are commonly 
 - [Robotium](https://code.google.com/p/robotium/)
 - [Robolectric](http://robolectric.org/) (also used for unit testing Viewtils)
 - [Hamcrest](https://code.google.com/p/hamcrest/)
+- [FEST Android](https://github.com/square/fest-android)
 
 API Examples
 ----
