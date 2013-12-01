@@ -18,7 +18,8 @@ public class ViewGroupHelper extends Helper {
     public <T extends View> boolean click(Class<T> viewClass, Requirement<? super T> requirement){
         T view = find(viewClass).where(requirement);
         if(view != null){
-            return view.performClick();
+            view.performClick();
+            return true;
         }
         return false;
     }
