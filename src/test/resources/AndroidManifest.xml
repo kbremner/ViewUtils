@@ -8,7 +8,7 @@
               android:targetSdkVersion="18"/>
 
     <application>
-        <activity android:name=".SimpleTest$SimpleActivity" android:screenOrientation="portrait">
+        <activity android:name=".SimpleActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
