@@ -8,7 +8,7 @@ public class Helper {
     protected final Object instance;
     private final Class<?> instanceClass;
 
-    Helper(Object instance, Class<?> instanceClass){
+    <T> Helper(T instance, Class<T> instanceClass){
         this.instance = instance;
         this.instanceClass = instanceClass;
     }
