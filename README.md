@@ -77,7 +77,7 @@ Dependencies
 
 Why Not Use Hamcrest matchers?
 ---
-Currently it has been decided not to use the Hamcrest libraries, opting instead for a simpler `Requirement`-based approach. This makes it wasier to implement Requirements and means that Viewtils does not have that dependency on the Hamcrest libraries.
+Currently it has been decided not to use the Hamcrest libraries, opting instead for a simpler `Requirement`-based approach. This makes it easier to implement Requirements and means that Viewtils does not have that dependency on the Hamcrest libraries.
 
 Version
 ----
