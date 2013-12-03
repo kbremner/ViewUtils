@@ -30,12 +30,16 @@ Button button = with(viewGroup).find(Button.class).where(textMatches("Click.*");
 Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
 reqs.add(textIs(R.string.some_msg));
 reqs.add(idIs(R.id.textView));
+
+// Get a text view that matches *all* provided requirements
 TextView result = with(activity).find(TextView.class).where(matchesAll(reqs));      
 
-// Alternatively... (Note that your editor will complain about the use of generics with varargs
-TextView result = with(activity).find(TextView.class)
-                    .where(matchesAll(idIs(R.id.textView), textIs(R.string.some_msg))); 
+// Get a text view that matches *any* provided requirements
+TextView result = wth(activity).find(TextView.class).where(matchesAny(reqs));
 
+// Alternatively... (Note that your editor will complain about the use of generics with varargs)
+TextView result = with(activity).find(TextView.class)
+                    .where(matchesAll(idIs(R.id.textView), textIs(R.string.some_msg)));/
 ```
 - Find multiple matches & invert a `Requirement`:
 
