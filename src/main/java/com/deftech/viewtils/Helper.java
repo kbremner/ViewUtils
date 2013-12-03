@@ -10,7 +10,8 @@ public class Helper {
 
     <T> Helper(T instance, Class<T> instanceClass){
         this.instance = instance;
-        this.instanceClass = instanceClass;
+        this.instanceClass = instance.getClass();
+        //this.instanceClass = instanceClass;
     }
 
     public MethodRunner executeOnUiThread(String methodName){
