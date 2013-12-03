@@ -53,7 +53,7 @@ public class MethodRunnerTest {
         with(view).executeOnUiThread("setText")
                 .withParameter("Set text", CharSequence.class)
                 .usingRobolectric()
-                .in(100, TimeUnit.MILLISECONDS)
+                .in(1000, TimeUnit.MILLISECONDS) // wait a second
                 .returningNothing();
 
         // Validate that the change happened
