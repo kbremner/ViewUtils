@@ -1,10 +1,12 @@
 language: java
-
 before_install:
-    - sudo apt-get install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
-    - wget http://dl.google.com/android/android-sdk_r22.3-linux.tgz
-    - tar xzf android-sdk_r22.3-linux.tgz
-    - export ANDROID_HOME=$PWD/android-sdk-linux
-    - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-    - echo y | android update sdk -a --filter platform-tools,android-7 --no-ui --force
-    - ./scripts/install_android.sh
+- sudo apt-get install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
+- wget http://dl.google.com/android/android-sdk_r22.3-linux.tgz
+- tar xzf android-sdk_r22.3-linux.tgz
+- export ANDROID_HOME=$PWD/android-sdk-linux
+- export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+- echo y | android update sdk -a --filter platform-tools,android-7 --no-ui --force
+- ./scripts/install_android.sh
+env:
+  global:
+    secure: N2/XRBQMF7LJ63uyadOeKQ2xaFyHUJuKYjpO8Oa5Cky4n0te3Jx1/hZwTB9US9ZY8/wT7uikIn3PCoN6ncOcYXz9cTmcsbbaIcmGTwO6R9ENkDVfmF9dMlRAEXZUdfPcALbQ/wijlbHGFvqx7vdyHMpDzHghsgIt4Z0DXH280cI=
