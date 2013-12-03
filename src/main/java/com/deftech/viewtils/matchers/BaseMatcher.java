@@ -23,6 +23,21 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
         };
     }
 
+    public static <T> Requirement<T> matchesAny(final Requirement<? super T>... reqs){
+        return matchesAny(Arrays.asList(reqs));
+    }
+
+    public static <T> Requirement<T> matchesAny(final Iterable<Requirement<? super T>> reqs){
+        return new Requirement<T>() {
+            @Override public boolean matchesRequirement(T instance) {
+                for (Requirement<? super T> req : reqs) {
+                    if (req.matchesRequirement(instance)) return true;
+                }
+                return false;
+            }
+        };
+    }
+
     /***
      * Returns a requirement that all objects match
      * @return A requirement where {@code matchesRequirement} returns true if {@code instance != null}

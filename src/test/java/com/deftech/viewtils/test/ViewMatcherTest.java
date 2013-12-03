@@ -56,9 +56,9 @@ public class ViewMatcherTest {
     }
 
     @Test
-    public void testFindTextViewsMultpleMatchers(){
+    public void testFindTextViewsMatchesAll(){
         Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
-        reqs.add(textIs("New Text"));
+        reqs.add(textIs(R.string.tv_str));
         reqs.add(idIs(R.id.textView));
         List<TextView> result = with(createActivity()).find(TextView.class).allWhere(matchesAll(reqs));
 
@@ -67,12 +67,32 @@ public class ViewMatcherTest {
     }
 
     @Test
-    public void testDontFindTextViewsMultpleMatchers(){
+    public void testDontFindTextViewsMatchesAll(){
         Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
-        reqs.add(textIs("New Text"));
+        reqs.add(textIs(R.string.tv_str));
         reqs.add(idIs(R.id.button));
-        TextView result = with(createActivity()).find(TextView.class).where(matchesAll(reqs));
-        assertNull(result);
+        List<TextView> result = with(createActivity()).find(TextView.class).allWhere(matchesAll(reqs));
+        assertEquals(result.size(), 0);
+    }
+
+    @Test
+    public void testFindTextViewsMatchesAny(){
+        Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
+        reqs.add(textIs(R.string.tv_str));
+        reqs.add(idIs(0)); // Purposefully wrong...
+        List<TextView> result = with(createActivity()).find(TextView.class).allWhere(matchesAny(reqs));
+
+        assertEquals(result.size(), 1);
+        assertEquals(result.get(0).getText().toString(), result.get(0).getContext().getString(R.string.tv_str));
+    }
+
+    @Test
+    public void testDontFindTextViewsMatchesAny(){
+        Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
+        reqs.add(textIs("Some other text string"));
+        reqs.add(idIs(0));
+        List<TextView> result = with(createActivity()).find(TextView.class).allWhere(matchesAny(reqs));
+        assertEquals(result.size(), 0);
     }
 
     @Test
