@@ -54,13 +54,12 @@ TextView view = with(activity).find(TextView.class).where(new Requirement<View>(
 - Carry out a method call on the main application (UI) thread:
 
 ```java
-with(view, TextView.class)
-    .executeOnUiThread("setText")
+with(view).executeOnUiThread("setText")
     .withParameter("Some text", CharSequence.class)
     .usingRobolectric()
     .returningNothing();
     
-CharSequence text = with(view, TextView.class)
+CharSequence text = with(view)
     .executeOnUiThread("getText")
     .in(3, TimeUnit.SECONDS)
     .returning(CharSequence.class);
