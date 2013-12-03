@@ -29,8 +29,7 @@ public class MethodRunnerTest {
         assertEquals(view.getText().toString(), view.getContext().getString(R.string.tv_str));
 
         // Change the text
-        with(view, TextView.class)
-                .executeOnUiThread("setText")
+        with(view).executeOnUiThread("setText")
                 .withParameter("Set text", CharSequence.class)
                 .usingRobolectric()
                 .returningNothing();
@@ -51,8 +50,7 @@ public class MethodRunnerTest {
         assertEquals(view.getText().toString(), view.getContext().getString(R.string.tv_str));
 
         // Change the text
-        with(view, TextView.class)
-                .executeOnUiThread("setText")
+        with(view).executeOnUiThread("setText")
                 .withParameter("Set text", CharSequence.class)
                 .usingRobolectric()
                 .in(100, TimeUnit.MILLISECONDS)

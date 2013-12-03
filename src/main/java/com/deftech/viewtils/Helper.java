@@ -6,16 +6,13 @@ import android.app.Activity;
 
 public class Helper {
     protected final Object instance;
-    private final Class<?> instanceClass;
 
-    <T> Helper(T instance, Class<T> instanceClass){
+    <T> Helper(T instance){
         this.instance = instance;
-        this.instanceClass = instance.getClass();
-        //this.instanceClass = instanceClass;
     }
 
     public MethodRunner executeOnUiThread(String methodName){
-        return new MethodRunner(methodName, instance, instanceClass);
+        return new MethodRunner(methodName, instance);
     }
 
 
@@ -27,7 +24,7 @@ public class Helper {
         return new ViewGroupHelper(group);
     }
 
-    public static <T> Helper with(T instance, Class<T> instanceClass){
-        return new Helper(instance, instanceClass);
+    public static <T> Helper with(T instance){
+        return new Helper(instance);
     }
 }

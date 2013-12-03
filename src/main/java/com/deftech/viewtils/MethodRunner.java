@@ -17,17 +17,15 @@ public class MethodRunner {
     private List<Object> args = new ArrayList<Object>();
     private List<Class<?>> paramTypes = new ArrayList<Class<?>>();
     private Object instance;
-    private Class<?> instanceClass;
     private boolean withRobolectric;
     private Handler handler;
     private Integer time;
     private TimeUnit unit;
 
 
-    public MethodRunner(String methodName, Object instance, Class<?> instanceClass){
+    public MethodRunner(String methodName, Object instance){
         this.methodName = methodName;
         this.instance = instance;
-        this.instanceClass = instanceClass;
     }
 
     public <P> MethodRunner withParameter(P instance, Class<P> instanceClass){
@@ -67,7 +65,7 @@ public class MethodRunner {
 
             Class<?>[] pTypes = new Class<?>[paramTypes.size()];
             pTypes = paramTypes.toArray(pTypes);
-            final Method method = instanceClass.getMethod(methodName, pTypes);
+            final Method method = instance.getClass().getMethod(methodName, pTypes);
 
             final Object i = instance;
             final Object[] a = args.toArray();

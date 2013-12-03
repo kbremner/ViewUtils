@@ -8,7 +8,7 @@ import com.deftech.viewtils.matchers.ViewMatcher;
 public class ViewGroupHelper extends Helper {
 
     ViewGroupHelper(ViewGroup instance) {
-        super(instance, ViewGroup.class);
+        super(instance);
     }
 
     public <T extends View> ViewMatcher<T> find(Class<T> view){
