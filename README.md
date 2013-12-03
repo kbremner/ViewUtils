@@ -35,7 +35,7 @@ reqs.add(idIs(R.id.textView));
 TextView result = with(activity).find(TextView.class).where(matchesAll(reqs));      
 
 // Get a text view that matches *any* provided requirements
-TextView result = wth(activity).find(TextView.class).where(matchesAny(reqs));
+TextView result = with(activity).find(TextView.class).where(matchesAny(reqs));
 
 // Alternatively... (Note that your editor will complain about the use of generics with varargs)
 TextView result = with(activity).find(TextView.class)
