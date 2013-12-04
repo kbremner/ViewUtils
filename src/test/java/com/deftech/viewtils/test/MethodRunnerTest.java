@@ -15,10 +15,13 @@ import static com.deftech.viewtils.Helper.with;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
 public class MethodRunnerTest {
+    private boolean methodRan = false;
+    
     @Test
     public void testSetText() {
         Activity activity = createActivity();
@@ -64,14 +67,17 @@ public class MethodRunnerTest {
     
     @Test
     public void testRunStaticMethod(){
+        methodRan = false;
         with(MethodRunnerTest.class).executeOnUiThread("simpleStaticMethod")
             .usingRobolectric()
             .returningNothing();
+            
+        assertTrue("Static method didn't run", methodRan);
     }
     
     
     public static void simpleStaticMethod(){
-        /* Do nothing, just for testing */
+        methodRan = true;
     }
 
 }
