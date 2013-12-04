@@ -3,11 +3,15 @@ package com.deftech.viewtils;
 import android.view.ViewGroup;
 import android.app.Activity;
 
-
+/***
+ * A Helper provides support for interacting
+ * with any object, but in particular {@link Activity}'s and
+ * {@link ViewGroup}'s.
+ */
 public class Helper {
     protected final Object instance;
 
-    <T> Helper(T instance){
+    protected Helper(Object instance){
         this.instance = instance;
     }
 
@@ -24,7 +28,7 @@ public class Helper {
         return new ViewGroupHelper(group);
     }
 
-    public static <T> Helper with(T instance){
+    public static Helper with(Object instance){
         return new Helper(instance);
     }
 }
