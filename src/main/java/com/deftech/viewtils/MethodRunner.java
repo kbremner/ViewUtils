@@ -129,7 +129,6 @@ public class MethodRunner {
             return result.get();
 
         } catch(Throwable t){
-            t.printStackTrace();
             // Wrap any throwables in a runtime exception
             throw new RuntimeException("Failed to invoke method", t);
         }
