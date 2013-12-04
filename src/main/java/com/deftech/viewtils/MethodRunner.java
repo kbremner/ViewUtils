@@ -16,7 +16,8 @@ public class MethodRunner {
     private final String methodName;
     private List<Object> args = new ArrayList<Object>();
     private List<Class<?>> paramTypes = new ArrayList<Class<?>>();
-    private Object instance;
+    private final Object instance;
+    private Class<?> instanceClass;
     private boolean withRobolectric;
     private Handler handler;
     private Integer time;
@@ -24,9 +25,20 @@ public class MethodRunner {
 
 
     public MethodRunner(String methodName, Object instance){
+        this(methodName, instance, instance.getClass());
+    }
+    
+    public MethodRunner(String methodName, Class<?> instanceClass){
+        this(methodName, null, instanceClass);
+    }
+    
+    private MethodRunner(String methodName, Object instance, Class<?> instanceClass){
         this.methodName = methodName;
         this.instance = instance;
+        this.instanceClass = instanceClass;
     }
+
+
 
     public <P> MethodRunner withParameter(P instance, Class<P> instanceClass){
         args.add(instance);
@@ -63,11 +75,9 @@ public class MethodRunner {
         try {
             handler = (handler == null) ? new Handler(Looper.getMainLooper()) : handler;
 
-            Class<?>[] pTypes = new Class<?>[paramTypes.size()];
-            pTypes = paramTypes.toArray(pTypes);
-            final Method method = instance.getClass().getMethod(methodName, pTypes);
+            final Class<?>[] pTypes = paramTypes.toArray(new Class<?>[paramTypes.size()]);
+            final Method method = instanceClass.getMethod(methodName, pTypes);
 
-            final Object i = instance;
             final Object[] a = args.toArray();
 
             final AtomicReference<Object> result = new AtomicReference<Object>();
@@ -79,7 +89,7 @@ public class MethodRunner {
                 @Override
                 public void run() {
                     try {
-                        result.set(method.invoke(i,a));
+                        result.set(method.invoke(instance,a));
                     } catch(InvocationTargetException e){
                         throwable.set(e.getCause());
                     } catch(Throwable t){
@@ -119,6 +129,7 @@ public class MethodRunner {
             return result.get();
 
         } catch(Throwable t){
+            t.printStackTrace();
             // Wrap any throwables in a runtime exception
             throw new RuntimeException("Failed to invoke method", t);
         }

@@ -61,5 +61,17 @@ public class MethodRunnerTest {
         assertNotNull(view);
         assertEquals(view.getText().toString(), "Set text");
     }
+    
+    @Test
+    public void testRunStaticMethod(){
+        with(MethodRunnerTest.class).executeOnUiThread("simpleStaticMethod")
+            .usingRobolectric()
+            .returningNothing();
+    }
+    
+    
+    public static void simpleStaticMethod(){
+        /* Do nothing, just for testing */
+    }
 
 }

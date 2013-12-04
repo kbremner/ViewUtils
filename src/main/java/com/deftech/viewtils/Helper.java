@@ -14,6 +14,10 @@ public class Helper {
     protected Helper(Object instance){
         this.instance = instance;
     }
+    
+    protected Helper(){
+        this(null);
+    }
 
     public MethodRunner executeOnUiThread(String methodName){
         return new MethodRunner(methodName, instance);
@@ -26,6 +30,10 @@ public class Helper {
     
     public static ViewGroupHelper with(ViewGroup group){
         return new ViewGroupHelper(group);
+    }
+
+    public static Helper with(Class<?> instanceClass){
+        return new ClassHelper(instanceClass);
     }
 
     public static Helper with(Object instance){
