@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
 public class MethodRunnerTest {
-    private boolean methodRan = false;
+    private static boolean methodRan = false;
     
     @Test
     public void testSetText() {
