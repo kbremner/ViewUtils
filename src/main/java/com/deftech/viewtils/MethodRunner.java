@@ -12,6 +12,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 
+/***
+ * Helps in executing methods on the main (UI) thread
+ * of an application.
+ * @see Handler#post(Runnable)
+ */
 public class MethodRunner {
     private final String methodName;
     private List<Object> args = new ArrayList<Object>();
@@ -61,13 +66,25 @@ public class MethodRunner {
         this.instanceClass = instanceClass;
     }
 
-
+    /***
+     * Specifies a parameter to be passed in when invoking the method.
+     * The type is required to help find the method that is to be invoked.
+     * This method can be called as many times as is required to specify
+     * all the parameters for a method
+     * @return This instance to allow for method chaining
+     */
     public <P> MethodRunner withParameter(P instance, Class<P> instanceClass){
         args.add(instance);
         paramTypes.add(instanceClass);
         return this;
     }
 
+    /***
+     * Stipulate that Robolectric is being used. The MethodRunner will
+     * call {@code Robolectric.runUiThreadTasksIncludingDelayedTasks()}
+     * to ensure that the method is executed
+     * @return This instance to allow for method chaining
+     */
     public MethodRunner usingRobolectric(){
         withRobolectric = true;
         return this;
