@@ -19,8 +19,7 @@ public class Helper {
      * to carry out supported tasks
      */
     protected Helper(Object instance){
-        this.instance = instance;
-        this.instanceClass = instance.getClass();
+        this(instance, instance.getClass());
     }
     
     /***
@@ -30,7 +29,17 @@ public class Helper {
      * to carry out supported tasks
      */
     protected Helper(Class<?> instanceClass){
-        this.instance = null;
+        this(null, instanceClass);
+    }
+    
+    /***
+     * Contructor that provides an insstance and a class that
+     * are to be used to carry out further operations
+     * @param instance The instance to be used by the helper
+     * @param instanceClass The class to be used by the helper
+     */
+    protected Helper(Object instance, Class<?> instanceClass){
+        this.instance = instance;
         this.instanceClass = instanceClass;
     }
 
