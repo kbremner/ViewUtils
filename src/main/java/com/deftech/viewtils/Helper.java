@@ -4,22 +4,36 @@ import android.view.ViewGroup;
 import android.app.Activity;
 
 /***
- * A Helper provides support for interacting
- * with any object, but in particular {@link Activity}'s and
- * {@link ViewGroup}'s.
+ * Helper instances provide support for interacting with an object
+ * @see ActivityHelper
+ * @see ViewGroupHelper
  */
 public class Helper {
     protected final Object instance;
+    protected final Class<?> instanceClass;
 
     /***
-     * Contructor that provides the instance that
+     * Contructor that provides an instance that
      * is to be used to carry out further operations
      * @param instance The instance to be used by the helper
      * to carry out supported tasks
      */
     protected Helper(Object instance){
         this.instance = instance;
+        this.instanceClass = instance.getClass();
     }
+    
+    /***
+     * Contructor that provides a class that
+     * is to be used to carry out further operations
+     * @param instanceClass The class to be used by the helper
+     * to carry out supported tasks
+     */
+    protected Helper(Class<?> instanceClass){
+        this.instance = null;
+        this.instanceClass = instanceClass;
+    }
+
 
     /***
      * Returns a {@link MethodRunner} that can be used to
@@ -27,8 +41,9 @@ public class Helper {
      * @param methodName the name of the method to be executed
      */
     public MethodRunner executeOnUiThread(String methodName){
-        return new MethodRunner(methodName, instance);
+        return new MethodRunner(methodName, instance, instanceClass);
     }
+
 
     /***
      * Returns an {@link ActivityHelper} instance to help carry
@@ -57,7 +72,7 @@ public class Helper {
      * static methods that are to be called
      */
     public static Helper with(Class<?> instanceClass){
-        return new ClassHelper(instanceClass);
+        return new Helper(instanceClass);
     }
 
     /***
