@@ -28,30 +28,6 @@ public class MethodRunner {
     private Integer time;
     private TimeUnit unit;
 
-
-    /***
-     * Create a new MethodRunner that can be used to call
-     * a method with the provided name on the provided instance.
-     * This is equivalent to calling {@link #MethodRunner(String,Object,Class<?>)}
-     * with {@code instanceClass = instance.getClass()}
-     * @param methodName name of the method to be invoked
-     * @param instance Instance that implements the method
-     */
-    public MethodRunner(String methodName, Object instance){
-        this(methodName, instance, instance.getClass());
-    }
-    
-    /***
-     * Create a new MethodRunner for calling static methods
-     * implemented by the provided class. This is equivalent to
-     * calling {@link #MethodRunner(String,Object,Class<?>)} with
-     * {@code instance = null}
-     * @param methodName name of the static method to be invoked
-     * @param instanceClass Class that defines the static method
-     */
-    public MethodRunner(String methodName, Class<?> instanceClass){
-        this(methodName, null, instanceClass);
-    }
     
     /***
      * Create a new MethodRunner that can be used to call
