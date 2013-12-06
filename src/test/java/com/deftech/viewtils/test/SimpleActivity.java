@@ -9,4 +9,8 @@ public final class SimpleActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
     }
+    
+    public void viewClicked(View view){
+        /* Do Nothing */
+    }
 }
