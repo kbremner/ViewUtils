@@ -25,8 +25,7 @@ public class MethodRunner {
     private Class<?> instanceClass;
     private boolean withRobolectric;
     private Handler handler;
-    private Integer time;
-    private TimeUnit unit;
+    private Long time;
 
     
     /***
@@ -72,8 +71,7 @@ public class MethodRunner {
     }
 
     public MethodRunner in(int time, TimeUnit unit){
-        this.time = time;
-        this.unit = unit;
+        this.time = unit.toMillis(time);
         return this;
     }
 
@@ -115,12 +113,8 @@ public class MethodRunner {
                 }
             };
 
-            // If it's delayed, post it with the delay, else just post it
-            if(time != null && unit != null) {
-                handler.postDelayed(runnable, unit.toMillis(time));
-            } else {
-                handler.post(runnable);
-            }
+            // If a delay was defined, use it, else post now
+            handler.postDelayed(runnable, (time != null) ? time : 0);
 
             // If using robolectric, advance the looper
             if(withRobolectric){
