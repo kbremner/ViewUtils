@@ -72,7 +72,7 @@ CharSequence text = with(view)
 - Click on a view:
 
 ```java
-with(activity).click(Button.class, textMatches("Click.*"));
+with(activity).click(Button.class).where(textMatches("Click.*"));
 ```
 
 Maven
