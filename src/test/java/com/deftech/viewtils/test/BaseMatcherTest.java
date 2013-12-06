@@ -15,6 +15,7 @@ import static com.deftech.viewtils.matchers.BaseMatcher.*;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "src/test/resources/AndroidManifest.xml")
@@ -37,5 +38,10 @@ public class BaseMatcherTest {
     public void testNot(){
         List<View> results = with(createActivity()).find(View.class).allWhere(not(exists()));
         assertEquals(results.size(), 0);
+    }
+
+    @Test
+    public void testFromComparable(){
+        assertTrue(fromComparable(true).matchesRequirement(true));
     }
 }
