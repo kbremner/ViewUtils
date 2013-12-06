@@ -1,13 +1,12 @@
 package com.deftech.viewtils.test;
 
-import android.app.Activity;
-
 import static org.robolectric.Robolectric.buildActivity;
+
 
 class TestUtil {
     private TestUtil(){}
 
-    public static Activity createActivity(){
+    public static SimpleActivity createActivity(){
         return buildActivity(SimpleActivity.class).create().start().resume().visible().get();
     }
 }

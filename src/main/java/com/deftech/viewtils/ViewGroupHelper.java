@@ -2,8 +2,8 @@ package com.deftech.viewtils;
 
 import android.view.View;
 import android.view.ViewGroup;
-import com.deftech.viewtils.matchers.Requirement;
 import com.deftech.viewtils.matchers.ViewMatcher;
+
 
 /***
  * Helps interact with a {@link ViewGroup}. When
@@ -34,17 +34,12 @@ public class ViewGroupHelper extends Helper {
     }
 
     /***
-     * Attempts to click on a view that meets the provided {@link Requirement}
+     * Provides a {@link ViewClicker} to help in click a view of the specified type
      * @param viewClass class that represents the type of view to be clicked
-     * @param requirement a requirement that a view must meet before we click it
      * @param <T> the type of view to be clicked
-     * @return true if {@code performClick()} for a view that met the requirement returned true, else false
+     * @return A ViewClicker to help in clicking a view
      */
-    public <T extends View> boolean click(Class<T> viewClass, Requirement<? super T> requirement){
-        T view = find(viewClass).where(requirement);
-        if(view != null){
-            return view.performClick();
-        }
-        return false;
+    public <T extends View> ViewClicker<T> click(Class<T> viewClass){
+        return new ViewClicker<T>(this, viewClass);
     }
 }

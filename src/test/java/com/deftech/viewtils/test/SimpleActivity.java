@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 public final class SimpleActivity extends Activity {
+    private boolean viewClicked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -12,6 +14,8 @@ public final class SimpleActivity extends Activity {
     }
     
     public void viewClicked(View view){
-        /* Do Nothing */
+        viewClicked = true;
     }
+
+    public boolean isViewClicked() { return viewClicked; }
 }

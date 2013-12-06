@@ -161,13 +161,42 @@ public class ViewMatcherTest {
     }
 
     @Test
-    public void testClickButtonWithContent() {
-        assertTrue(with(createActivity()).click(Button.class, textIs(R.string.btn_str)));
+    public void testClickTextView(){
+        SimpleActivity activity = createActivity();
+        Button button = with(activity).find(Button.class).where(idIs(R.id.button));
+        // There are 2 text views, but only R.id.button has an onClick listener
+        assertEquals(button, with(activity).click(TextView.class).where(exists()));
+        assertTrue(activity.isViewClicked());
     }
 
     @Test
-    public void testDontClickButtonWithContent() {
-        assertFalse(with(createActivity()).click(Button.class, not(textIs(R.string.btn_str))));
+    public void testClickButton(){
+        SimpleActivity activity = createActivity();
+        Button button = with(activity).find(Button.class).where(idIs(R.id.button));
+        assertEquals(button, with(activity).click(Button.class).where(exists()));
+        assertTrue(activity.isViewClicked());
+    }
+
+    @Test
+    public void testClickTextViewWithContent() {
+        SimpleActivity activity = createActivity();
+        TextView button = with(activity).find(TextView.class).where(idIs(R.id.button));
+        assertEquals(button, with(activity).click(TextView.class).where(textIs(R.string.btn_str)));
+        assertTrue(activity.isViewClicked());
+    }
+
+    @Test
+    public void testDontClick() {
+        assertNull(with(createActivity()).click(TextView.class).where(not(exists())));
+    }
+
+    @Test
+    public void testDontClickTextViewWithContentNoOnClick() {
+        /*
+         * Helper will find the class, but view.performClick() will return false
+         * because there is no onClick listener
+         */
+        assertNull(with(createActivity()).click(TextView.class).where(textIs(R.string.tv_str)));
     }
 
 
