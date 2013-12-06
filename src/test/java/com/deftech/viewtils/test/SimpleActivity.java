@@ -2,6 +2,7 @@ package com.deftech.viewtils.test;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 
 public final class SimpleActivity extends Activity {
     @Override
