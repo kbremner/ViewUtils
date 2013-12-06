@@ -8,6 +8,6 @@ class TestUtil {
     private TestUtil(){}
 
     public static Activity createActivity(){
-        return buildActivity(SimpleActivity.class).create().get();
+        return buildActivity(SimpleActivity.class).create().start().resume().visible().get();
     }
 }
