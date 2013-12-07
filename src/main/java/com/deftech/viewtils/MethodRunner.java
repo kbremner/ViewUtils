@@ -6,7 +6,9 @@ import android.os.Looper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -26,6 +28,22 @@ public class MethodRunner {
     private boolean withRobolectric;
     private Handler handler;
     private Long time;
+
+    /* Creates a map to allow primitive classes to be
+     * wrapped in their corresponding wrapper class */
+    private static final int NUM_PRIMITIVE_TYPES = 9;
+    private static final Map<Class<?>, Class<?>> primMap = new HashMap<Class<?>, Class<?>>(NUM_PRIMITIVE_TYPES);
+    static {
+        primMap.put(boolean.class, Boolean.class);
+        primMap.put(byte.class, Byte.class);
+        primMap.put(char.class, Character.class);
+        primMap.put(double.class, Double.class);
+        primMap.put(float.class, Float.class);
+        primMap.put(int.class, Integer.class);
+        primMap.put(long.class, Long.class);
+        primMap.put(short.class, Short.class);
+        primMap.put(void.class, Void.class);
+    }
 
     
     /***
@@ -76,22 +94,33 @@ public class MethodRunner {
     }
 
     public <T> T returning(Class<T> returnType) {
-        return returnType.cast(invoke());
+        return invoke(returnType);
     }
 
     public void returningNothing() {
-        invoke();
+        returning(Void.class);
     }
 
 
-    private Object invoke() {
+    private <T> T invoke(Class<T> returnType) {
         try {
+            // Create a handler if none specified
             handler = (handler == null) ? new Handler(Looper.getMainLooper()) : handler;
 
+            // Try and find the method
             final Class<?>[] pTypes = paramTypes.toArray(new Class<?>[paramTypes.size()]);
             final Method method = instanceClass.getMethod(methodName, pTypes);
 
-            final Object[] a = args.toArray();
+            // Wrap the return type, if required
+            returnType = wrapPrimitiveClass(returnType);
+
+            if(returnType == null){
+                throw new NullPointerException("Return type cannot be null");
+            } else if(returnType != wrapPrimitiveClass(method.getReturnType())){
+                throw new NoSuchMethodException("No method returning " + returnType);
+            }
+
+            final Object[] argsArray = args.toArray();
 
             final AtomicReference<Object> result = new AtomicReference<Object>();
             final AtomicReference<Throwable> throwable = new AtomicReference<Throwable>();
@@ -102,7 +131,7 @@ public class MethodRunner {
                 @Override
                 public void run() {
                     try {
-                        result.set(method.invoke(instance,a));
+                        result.set(method.invoke(instance,argsArray));
                     } catch(InvocationTargetException e){
                         throwable.set(e.getCause());
                     } catch(Throwable t){
@@ -127,19 +156,30 @@ public class MethodRunner {
             }
 
             // Wait for the method call to finish
-            while(!finished.get()){
-                System.out.println("Waiting...");
-                Thread.sleep(100);
-            }
+            while(!finished.get());
 
             // If the method encountered an exception, throw it
             if(throwable.get() != null) throw throwable.get();
             // Else return the result
-            return result.get();
+            return returnType.cast(result.get());
 
         } catch(Throwable t){
             // Wrap any throwables in a runtime exception
             throw new RuntimeException("Failed to invoke method", t);
         }
+    }
+
+    /***
+     * Wraps a class in it's wrapper class if it represents
+     * a primitive type
+     * @param primClass class for a primitive type to be wrapped
+     * @return the wrapper class if {@code primClass} was for a primitive type,
+     * else returns {@code primClass}
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> Class<T> wrapPrimitiveClass(Class<T> primClass){
+        Class<?> mappedClass = primMap.get(primClass);
+        if(mappedClass != null) return (Class<T>) mappedClass;
+        return primClass;
     }
 }
