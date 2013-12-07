@@ -12,10 +12,7 @@ public class TextViewMatcher<T extends TextView> extends ViewMatcher<T> {
     public static Requirement<TextView> textIs(final String content){
         return new Requirement<TextView>() {
             @Override public boolean matchesRequirement(TextView t) {
-                if(t.getText() == null){
-                    return content == null;
-                }
-                return (t.getText() == null) ? (content == null) : t.getText().toString().equals(content);
+                return t.getText().toString().equals(content);
             }
         };
     }
