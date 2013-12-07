@@ -147,12 +147,8 @@ public class MethodRunner {
 
             // If using robolectric, advance the looper
             if(withRobolectric){
-                try {
-                    Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
-                    robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
-                } catch(InvocationTargetException e){
-                    throw e.getCause();
-                }
+                Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
+                robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
             }
 
             // Wait for the method call to finish

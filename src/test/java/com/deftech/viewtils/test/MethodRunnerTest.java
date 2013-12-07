@@ -199,6 +199,16 @@ public class MethodRunnerTest {
         } catch(RuntimeException e){
             throw (e.getCause() == null) ? e : e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
         }
+    }
 
+    @Test(expected = NullPointerException.class)
+    public void testNullReturnType() throws Throwable {
+        try {
+            with(this).executeOnUiThread("simpleMethod")
+                    .usingRobolectric()
+                    .returning(null);
+        } catch(RuntimeException e){
+            throw (e.getCause() == null) ? e : e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
+        }
     }
 }
