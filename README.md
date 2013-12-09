@@ -39,7 +39,7 @@ TextView result = with(activity).find(TextView.class).where(matchesAny(reqs));
 
 // Alternatively... (Note that your editor will complain about the use of generics with varargs)
 TextView result = with(activity).find(TextView.class)
-                    .where(matchesAll(idIs(R.id.textView), textIs(R.string.some_msg)));/
+                    .where(matchesAll(idIs(R.id.textView), textIs(R.string.some_msg)));
 ```
 - Find multiple matches & invert a `Requirement`:
 
