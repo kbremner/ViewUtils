@@ -75,10 +75,6 @@ CharSequence text = with(view)
 with(activity).click(Button.class).where(textMatches("Click.*"));
 ```
 
-Maven
----
-The project will soon be deployed to maven.
-
 Dependencies
 ---
 - Android 2.1 (API level 7) or greater
