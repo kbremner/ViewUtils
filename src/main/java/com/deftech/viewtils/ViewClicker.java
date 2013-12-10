@@ -2,54 +2,51 @@ package com.deftech.viewtils;
 
 
 import android.view.View;
+import android.view.ViewGroup;
 import com.deftech.viewtils.matchers.Requirement;
+import com.deftech.viewtils.matchers.ViewMatcher;
 
 import java.util.List;
-
 /***
- * Uses a {@link ViewGroupHelper} to find a class
- * of the specified type and try and click it using
- * {@link android.view.View#performClick()}. If that
- * returns false, the instance will try the next class
- * that meets the specified {@link Requirement}
+ * finds a classes of the specified type and tries to click them by
+ * calling {@link android.view.View#performClick()}
  * @param <T> Type of view to click
+ * @see android.view.View#performClick()
  */
-public class ViewClicker<T extends View> {
-    private final ViewGroupHelper viewGroupHelper;
-    private final Class<T> viewClass;
-
-    /***
-     * Creates an instance to help in clicking a view
-     * of the specified type
-     * @param viewGroupHelper Helper used to find a view of the specified type
-     * @param viewClass type of view to find
-     */
-    public ViewClicker(ViewGroupHelper viewGroupHelper, Class<T> viewClass) {
-        this.viewGroupHelper = viewGroupHelper;
-        this.viewClass = viewClass;
+public class ViewClicker<T extends View> extends ViewMatcher<T> {
+    public ViewClicker(ViewGroup group, Class<T> viewClass) {
+        super(group, viewClass);
     }
 
     /***
-     * Finds and clicks the first view of the previously specified type that
-     * meets the provided requirement. Note that if {@link android.view.View#performClick()}
-     * returns false (i.e. it didn't have an {@link android.view.View.OnClickListener}),
-     * then that view will be disregarded
-     * @param req Requirement that the view must meet before clicking it
-     * @return The view that was clicked, or null if no view met the specified
-     * requirement and had an {@link android.view.View.OnClickListener}
+     * Finds the first instance of the specified type that
+     * met the provided requirement and returned {@code true}
+     * when {@link android.view.View#performClick()}  was called
+     * @param req Requirement that the instance must meet
+     * @return The first instance that met the requirement and was clicked
      */
-    public T where(Requirement<? super T> req){
-        // Get all the views that meet the requirement
-        List<T> views = viewGroupHelper.find(viewClass).allWhere(req);
+    @Override
+    public T where(final Requirement<? super T> req) {
+        return super.where(makeClickReq(req));
+    }
 
-        // try and click each match
-        for(T v : views){
-            if(v.performClick()) {
-                return v; // Successfully clicked, return it
+    /***
+     * Finds all instances of the specified type that
+     * met the provided requirement and returned {@code true}
+     * when {@link android.view.View#performClick()}  was called
+     * @param req Requirement that the instances must meet
+     * @return The instances that met the requirement and were clicked
+     */
+    @Override
+    public List<T> allWhere(final Requirement<? super T> req) {
+        return super.allWhere(makeClickReq(req));
+    }
+
+    private Requirement<T> makeClickReq(final Requirement<? super T> req){
+        return new Requirement<T>() {
+            @Override public boolean matchesRequirement(T instance) {
+                return req.matchesRequirement(instance) && instance.performClick();
             }
-        }
-
-        // No view clicked
-        return null;
+        };
     }
 }

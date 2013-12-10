@@ -40,6 +40,6 @@ public class ViewGroupHelper extends Helper {
      * @return A ViewClicker to help in clicking a view
      */
     public <T extends View> ViewClicker<T> click(Class<T> viewClass){
-        return new ViewClicker<T>(this, viewClass);
+        return new ViewClicker<T>((ViewGroup) instance, viewClass);
     }
 }

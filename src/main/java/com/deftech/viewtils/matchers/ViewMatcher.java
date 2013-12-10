@@ -16,36 +16,18 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         this.viewClass = viewClass;
     }
 
-    public T where(Requirement<? super T> requirements){
-        return where(group, requirements);
+
+    public T where(Requirement<? super T> requirement){
+        List<T> results = find(group, requirement, true);
+        return (results.size() > 0) ? results.get(0) : null;
     }
-
-    private T where(ViewGroup group, Requirement<? super T> requirement){
-        for(int i=0; i<group.getChildCount(); i++){
-            View currentView = group.getChildAt(i);
-
-            // Check that the view is the correct type and meets the requirement
-            if(viewClass.isInstance(currentView) &&
-                    requirement.matchesRequirement(viewClass.cast(currentView))) {
-                return viewClass.cast(currentView);
-            }
-
-            // If it was a ViewGroup, look in there as well
-            if(currentView instanceof ViewGroup){
-                return where((ViewGroup) currentView, requirement);
-            }
-        }
-
-        return null; // No match found...
-    }
-
-
 
     public List<T> allWhere(Requirement<? super T> requirement){
-        return allWhere(group, requirement);
+        return find(group, requirement, false);
     }
 
-    private List<T> allWhere(ViewGroup group, Requirement<? super T> requirement){
+
+    private List<T> find(ViewGroup group, Requirement<? super T> requirement, boolean findFirst){
         List<T> results = new ArrayList<T>();
 
         for(int i=0; i<group.getChildCount(); i++){
@@ -55,11 +37,13 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
             if(viewClass.isInstance(currentView) &&
                     requirement.matchesRequirement(viewClass.cast(currentView))){
                 results.add(viewClass.cast(currentView));
+                if(findFirst) break;
             }
 
             // If it was a ViewGroup, look in there as well
             if(currentView instanceof ViewGroup){
-                results.addAll(allWhere((ViewGroup) currentView, requirement));
+                results.addAll(find((ViewGroup) currentView, requirement, findFirst));
+                if(results.size() > 0) break;
             }
         }
 
@@ -74,5 +58,4 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
             }
         };
     }
-
 }
