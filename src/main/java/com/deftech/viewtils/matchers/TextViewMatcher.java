@@ -20,10 +20,7 @@ public class TextViewMatcher<T extends TextView> extends ViewMatcher<T> {
     public static Requirement<TextView> textMatches(final String regex){
         return new Requirement<TextView>(){
             @Override public boolean matchesRequirement(TextView t){
-                if(t.getText() == null){
-                    return regex == null;
-                }
-                return (t.getText() == null) ? (regex == null) : t.getText().toString().matches(regex);
+                 return t.getText().toString().matches(regex);
             }
         };
     }
@@ -31,8 +28,7 @@ public class TextViewMatcher<T extends TextView> extends ViewMatcher<T> {
     public static Requirement<TextView> textIs(final int id){
         return new Requirement<TextView>() {
             @Override public boolean matchesRequirement(TextView t) {
-                    String content = t.getContext().getString(id);
-                    return (content != null && t.getText() != null) && content.equals(t.getText().toString());
+                return t.getText().toString().equals(t.getContext().getString(id));
             }
         };
     }

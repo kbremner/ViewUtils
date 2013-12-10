@@ -164,6 +164,18 @@ public class ViewMatcherTest {
     }
 
     @Test
+    public void testFindButtonMatchesEmptyContent() {
+        // Set the text to empty
+        Activity activity = createActivity();
+        TextView view = with(activity).find(TextView.class).where(idIs(R.id.button));
+        view.setText(null);
+
+        // Find the text view with null content
+        view = with(activity).find(TextView.class).where(textMatches(""));
+        assertEquals("", view.getText());
+    }
+
+    @Test
     public void testFindAllButtons(){
         List<Button> results = with(createActivity()).find(Button.class).allWhere(exists());
         assertEquals(results.size(), 1);  // Button
