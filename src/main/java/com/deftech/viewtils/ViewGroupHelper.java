@@ -3,6 +3,7 @@ package com.deftech.viewtils;
 import android.view.View;
 import android.view.ViewGroup;
 import com.deftech.viewtils.matchers.ViewMatcher;
+import com.deftech.viewtils.matchers.ViewClicker;
 
 
 /***
