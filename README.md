@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/kbremner/Viewtils.png?label=ready)](https://waffle.io/kbremner/Viewtils)  
 Viewtils [![Build Status](https://travis-ci.org/kbremner/Viewtils.png)](https://travis-ci.org/kbremner/Viewtils) [![Coverage Status](https://coveralls.io/repos/kbremner/Viewtils/badge.png?branch=master)](https://coveralls.io/r/kbremner/Viewtils?branch=master)
 =========
 Viewtils is a library to aide in carrying out tasks that are common when interacting with the UI of an application.
