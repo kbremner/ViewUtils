@@ -31,7 +31,7 @@ public class SpinnerClicker<T extends View> {
                     requirement.matchesRequirement(viewClass.cast(currentView))){
                 Spinner spinner = (Spinner) group;
                 spinner.setSelection(i);
-                return viewClass.cast(currentView);
+                return viewClass.cast(spinner.getSelectedView());
             }
 
             if(currentView instanceof ViewGroup){
