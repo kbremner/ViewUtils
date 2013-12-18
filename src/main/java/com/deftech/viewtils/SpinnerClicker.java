@@ -1,52 +1,46 @@
-package com.deftech.viewtils.matchers;
+package com.deftech.viewtils;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.deftech.viewtils.matchers.Requirement;
 
 
-public class ViewMatcher<T extends View> extends BaseMatcher<T> {
-    private final ViewGroup group;
+public class SpinnerClicker<T extends View> {
+    private final Spinner spinner;
     private final Class<T> viewClass;
 
-    public ViewMatcher(ViewGroup group, Class<T> viewClass){
-        this.group = group;
+    public SpinnerClicker(Spinner group, Class<T> viewClass){
+        this.spinner = group;
         this.viewClass = viewClass;
     }
 
+
     public T where(Requirement<? super T> requirement){
-        List<T> results = find(group, requirement, true);
-        return (results.size() > 0) ? results.get(0) : null;
-    }
-
-    public List<T> allWhere(Requirement<? super T> requirement){
-        return find(group, requirement, false);
+        return find(spinner, requirement);
     }
 
 
-    private List<T> find(ViewGroup group, Requirement<? super T> requirement, boolean findFirst){
-        List<T> results = new ArrayList<T>();
+    private T find(ViewGroup group, Requirement<? super T> requirement){
         int childCount = getChildCount(group);
 
         for(int i=0; i < childCount; i++){
             View currentView = getChildView(group, i);
             // Check that the view is the correct type and meets the requirement
-            if(viewClass.isInstance(currentView) &&
+            if(group instanceof Spinner && viewClass.isInstance(currentView) &&
                     requirement.matchesRequirement(viewClass.cast(currentView))){
-                results.add(viewClass.cast(currentView));
-                if(findFirst) break;
+                Spinner spinner = (Spinner) group;
+                spinner.setSelection(i);
+                return viewClass.cast(currentView);
             }
 
             if(currentView instanceof ViewGroup){
-                results.addAll(find((ViewGroup) currentView, requirement, findFirst));
-                if(results.size() > 0 && findFirst) break;
+                T result = find(group, requirement);
+                if(result != null) return result;
             }
         }
 
-        return results;
+        return null;
     }
 
 

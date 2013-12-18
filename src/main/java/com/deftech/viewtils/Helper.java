@@ -2,6 +2,7 @@ package com.deftech.viewtils;
 
 import android.view.ViewGroup;
 import android.app.Activity;
+import android.widget.Spinner;
 
 /***
  * Helper instances provide support for interacting with an object
@@ -72,6 +73,10 @@ public class Helper {
      */
     public static ViewGroupHelper with(ViewGroup group){
         return new ViewGroupHelper(group);
+    }
+
+    public static SpinnerHelper with(Spinner spinner){
+        return new SpinnerHelper(spinner);
     }
     
     /***

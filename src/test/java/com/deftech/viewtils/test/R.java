@@ -12,6 +12,7 @@ public final class R {
         public static final int textView = 0x10000;
         public static final int button = 0x10001;
         public static final int layout = 0x10002;
+        public static final int spinner = 0x10003;
     }
 
     public static final class string {
@@ -23,6 +24,7 @@ public final class R {
     }
 
     public static final class array {
+        public static final int spinner_items = 0x10300;
     }
 
     public static final class color {
@@ -33,6 +35,7 @@ public final class R {
 
     public static final class layout {
         public static final int main_layout = 0x10600;
+        public static final int spinner_layout = 0x10601;
     }
 
     public static final class anim {
