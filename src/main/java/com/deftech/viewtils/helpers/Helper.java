@@ -1,8 +1,9 @@
-package com.deftech.viewtils;
+package com.deftech.viewtils.helpers;
 
 import android.view.ViewGroup;
 import android.app.Activity;
 import android.widget.Spinner;
+import com.deftech.viewtils.MethodRunner;
 
 /***
  * Helper instances provide support for interacting with an object
@@ -44,9 +45,8 @@ public class Helper {
         this.instanceClass = instanceClass;
     }
 
-
     /***
-     * Returns a {@link MethodRunner} that can be used to
+     * Returns a {@link com.deftech.viewtils.MethodRunner} that can be used to
      * call a method with the name provided on the UI thread.
      * @param methodName the name of the method to be executed
      */

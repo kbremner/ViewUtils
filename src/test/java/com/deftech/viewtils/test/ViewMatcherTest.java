@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.deftech.viewtils.test.TestUtil.createActivity;
-import static com.deftech.viewtils.Helper.with;
+import static com.deftech.viewtils.helpers.Helper.with;
 import static com.deftech.viewtils.matchers.TextViewMatcher.*;
 import static org.junit.Assert.*;
 

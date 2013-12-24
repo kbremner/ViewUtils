@@ -10,7 +10,7 @@ import org.robolectric.annotation.Config;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static com.deftech.viewtils.Helper.with;
+import static com.deftech.viewtils.helpers.Helper.with;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

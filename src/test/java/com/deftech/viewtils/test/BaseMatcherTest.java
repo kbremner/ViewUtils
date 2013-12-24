@@ -10,7 +10,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import static com.deftech.viewtils.Helper.with;
+import static com.deftech.viewtils.helpers.Helper.with;
 import static com.deftech.viewtils.matchers.BaseMatcher.*;
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static org.junit.Assert.assertEquals;

@@ -1,8 +1,9 @@
-package com.deftech.viewtils;
+package com.deftech.viewtils.helpers;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import com.deftech.viewtils.matchers.SpinnerClicker;
 import com.deftech.viewtils.matchers.ViewMatcher;
 
 public class SpinnerHelper extends Helper {
@@ -23,7 +24,7 @@ public class SpinnerHelper extends Helper {
     }
 
     /***
-     * Provides a {@link ViewClicker} to help in click a view of the specified type
+     * Provides a {@link SpinnerClicker} to help in click a view of the specified type
      * @param viewClass class that represents the type of view to be clicked
      * @param <T> the type of view to be clicked
      * @return A ViewClicker to help in clicking a view

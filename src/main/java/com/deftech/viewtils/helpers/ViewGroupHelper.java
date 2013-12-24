@@ -1,4 +1,4 @@
-package com.deftech.viewtils;
+package com.deftech.viewtils.helpers;
 
 import android.view.View;
 import android.view.ViewGroup;
