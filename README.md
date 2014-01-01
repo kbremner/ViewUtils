@@ -27,7 +27,7 @@ Button button = with(viewGroup).find(Button.class).where(textMatches("Click.*");
 - Search using multiple requirements:
 
 ```java
-Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
+List<Requirement<? super TextView>> reqs = new ArrayList<Requirement<? super TextView>>();
 reqs.add(textIs(R.string.some_msg));
 reqs.add(idIs(R.id.textView));
 
@@ -54,6 +54,15 @@ TextView view = with(activity).find(TextView.class).where(new Requirement<View>(
         return instance.getVisibility() == View.VISIBLE;
     }
 });
+```
+- Select an item in a spinner:
+
+```java
+// Select the item after getting the spinner
+TextView spinnerItem = with(spinner).click(TextView.class).where(textIs("Item 3"));
+
+// Or find it within an activity
+spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
 ```
 - Carry out a method call on the main application (UI) thread:
 
