@@ -2,8 +2,8 @@ package com.deftech.viewtils.helpers;
 
 import android.view.View;
 import android.view.ViewGroup;
+import com.deftech.viewtils.matchers.Matcher;
 import com.deftech.viewtils.matchers.ViewMatcher;
-import com.deftech.viewtils.matchers.ViewClicker;
 
 
 /***
@@ -12,7 +12,7 @@ import com.deftech.viewtils.matchers.ViewClicker;
  * {@link ViewGroup} and also looks in any nested {@link ViewGroup}'s
  * @see ActivityHelper
  */
-public class ViewGroupHelper extends Helper {
+public class ViewGroupHelper extends Helper<ViewGroup,View> {
 
     /***
      * Create a new instance to help interact with the
@@ -31,16 +31,16 @@ public class ViewGroupHelper extends Helper {
      * @return a {@link ViewMatcher} that can be used to find a view of the specified type
      */
     public <T extends View> ViewMatcher<T> find(Class<T> view){
-        return new ViewMatcher<T>((ViewGroup) instance, view);
+        return new ViewMatcher<T>(instance, view, false);
     }
 
     /***
-     * Provides a {@link ViewClicker} to help in click a view of the specified type
+     * Provides a {@link ViewMatcher} to help in click a view of the specified type
      * @param viewClass class that represents the type of view to be clicked
      * @param <T> the type of view to be clicked
-     * @return A ViewClicker to help in clicking a view
+     * @return A {@link ViewMatcher} to help in clicking a view
      */
-    public <T extends View> ViewClicker<T> click(Class<T> viewClass){
-        return new ViewClicker<T>((ViewGroup) instance, viewClass);
+    public <T extends View> ViewMatcher<T> click(Class<T> viewClass){
+        return new ViewMatcher<T>(instance, viewClass, true);
     }
 }

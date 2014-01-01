@@ -147,8 +147,7 @@ public class MethodRunner {
 
             // If using robolectric, advance the looper
             if(withRobolectric){
-                Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
-                robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
+                runRobolectricLooper();
             }
 
             // Wait for the method call to finish
@@ -177,5 +176,14 @@ public class MethodRunner {
         Class<?> mappedClass = primMap.get(primClass);
         if(mappedClass != null) return (Class<T>) mappedClass;
         return primClass;
+    }
+
+    public static void runRobolectricLooper(){
+        try {
+            Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
+            robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
+        } catch (ReflectiveOperationException e) {
+            e.printStackTrace();
+        }
     }
 }

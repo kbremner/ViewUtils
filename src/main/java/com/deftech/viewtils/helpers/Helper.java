@@ -4,15 +4,17 @@ import android.view.ViewGroup;
 import android.app.Activity;
 import android.widget.Spinner;
 import com.deftech.viewtils.MethodRunner;
+import com.deftech.viewtils.matchers.Matcher;
+
 
 /***
  * Helper instances provide support for interacting with an object
  * @see ActivityHelper
  * @see ViewGroupHelper
  */
-public class Helper {
-    protected final Object instance;
-    protected final Class<?> instanceClass;
+public abstract class Helper<T,C> {
+    protected final T instance;
+    protected final Class<T> instanceClass;
 
     /***
      * Contructor that provides an instance that
@@ -20,8 +22,9 @@ public class Helper {
      * @param instance The instance to be used by the helper
      * to carry out supported tasks
      */
-    protected Helper(Object instance){
-        this(instance, instance.getClass());
+    @SuppressWarnings("unchecked")
+    protected Helper(T instance){
+        this(instance, (Class<T>) instance.getClass());
     }
     
     /***
@@ -30,7 +33,7 @@ public class Helper {
      * @param instanceClass The class to be used by the helper
      * to carry out supported tasks
      */
-    protected Helper(Class<?> instanceClass){
+    protected Helper(Class<T> instanceClass){
         this(null, instanceClass);
     }
     
@@ -40,10 +43,14 @@ public class Helper {
      * @param instance The instance to be used by the helper
      * @param instanceClass The class to be used by the helper
      */
-    protected Helper(Object instance, Class<?> instanceClass){
+    protected Helper(T instance, Class<T> instanceClass){
         this.instance = instance;
         this.instanceClass = instanceClass;
     }
+
+
+    public abstract <T extends C> Matcher<T> find(Class<T> instanceClass);
+    public abstract <T extends C> Matcher<T> click(Class<T> instanceClass);
 
     /***
      * Returns a {@link com.deftech.viewtils.MethodRunner} that can be used to
@@ -78,15 +85,15 @@ public class Helper {
     public static SpinnerHelper with(Spinner spinner){
         return new SpinnerHelper(spinner);
     }
-    
+
     /***
      * Returns a helper that can be used to execute a static
      * method implemented by the provided class on the UI thread
      * @param instanceClass The class that implements the
      * static methods that are to be called
      */
-    public static Helper with(Class<?> instanceClass){
-        return new Helper(instanceClass);
+    public static <T> Helper<T,Object> with(Class<T> instanceClass){
+        return new NonHelper<T, Object>(instanceClass);
     }
 
     /***
@@ -96,7 +103,7 @@ public class Helper {
      * @param instance The object that implements the
      * method to be called
      */
-    public static Helper with(Object instance){
-        return new Helper(instance);
+    public static <T> Helper<T,Object> with(T instance){
+        return new NonHelper<T, Object>(instance);
     }
 }

@@ -11,10 +11,12 @@ import java.util.List;
 public class ViewMatcher<T extends View> extends BaseMatcher<T> {
     private final ViewGroup group;
     private final Class<T> viewClass;
+    private final boolean clicking;
 
-    public ViewMatcher(ViewGroup group, Class<T> viewClass){
+    public ViewMatcher(ViewGroup group, Class<T> viewClass, boolean clicking){
         this.group = group;
         this.viewClass = viewClass;
+        this.clicking = clicking;
     }
 
     public T where(Requirement<? super T> requirement){
@@ -35,15 +37,19 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
             View currentView = getChildView(group, i);
             // Check that the view is the correct type and meets the requirement
             if(viewClass.isInstance(currentView) &&
-                    requirement.matchesRequirement(viewClass.cast(currentView))){
+                    requirement.matchesRequirement(viewClass.cast(currentView)) &&
+                    (!clicking || currentView.performClick())){
                 results.add(viewClass.cast(currentView));
-                if(findFirst) break;
             }
 
-            if(currentView instanceof ViewGroup){
+            if(currentView instanceof Spinner){
+                SpinnerMatcher<T> matcher = new SpinnerMatcher<T>((Spinner) currentView, viewClass, clicking);
+                results.addAll(matcher.allWhere(requirement));
+            } else if(currentView instanceof ViewGroup){
                 results.addAll(find((ViewGroup) currentView, requirement, findFirst));
-                if(results.size() > 0 && findFirst) break;
             }
+
+            if(results.size() > 0 && findFirst) break;
         }
 
         return results;

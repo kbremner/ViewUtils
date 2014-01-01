@@ -245,14 +245,7 @@ public class ViewMatcherTest {
     }
 
     @Test
-    public void testFindViewInSpinner(){
-        Activity activity = createActivity(SpinnerActivity.class);
-        TextView spinnerItem = with(activity).find(TextView.class).where(textIs("Item 3"));
-        assertNotNull(spinnerItem);
-    }
-
-    @Test
-    public void testClickViewInSpinner(){
+    public void testClickViewWithSpinner(){
         Activity activity = createActivity(SpinnerActivity.class);
         Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
         assertEquals(spinner.getSelectedItemPosition(), 0);
@@ -260,5 +253,36 @@ public class ViewMatcherTest {
         TextView spinnerItem = with(spinner).click(TextView.class).where(textIs("Item 3"));
         assertNotNull(spinnerItem);
         assertEquals(spinner.getSelectedItemPosition(), 2);
+        assertEquals(spinnerItem.getText().toString(), "Item 3");
+    }
+
+    @Test
+    public void testClickViewInSpinner(){
+        Activity activity = createActivity(SpinnerActivity.class);
+
+        // Get the spinner for checking and ensure first item is currently selected
+        Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
+        assertEquals(spinner.getSelectedItemPosition(), 0);
+
+        // Click the appropriate view and check that it was selected
+        TextView spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
+        assertNotNull(spinnerItem);
+        assertEquals(spinnerItem.getText().toString(), "Item 2");
+        assertEquals(spinner.getSelectedItemPosition(), 1);
+    }
+
+    @Test
+    public void testFindViewInSpinner(){
+        Activity activity = createActivity(SpinnerActivity.class);
+
+        // Get the spinner for checking and ensure first item is currently selected
+        Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
+        assertEquals(spinner.getSelectedItemPosition(), 0);
+
+        // Find the appropriate view and check that it was *not* selected
+        TextView spinnerItem = with(activity).find(TextView.class).where(textIs("Item 2"));
+        assertNotNull(spinnerItem);
+        assertEquals(spinnerItem.getText().toString(), "Item 2");
+        assertEquals(spinner.getSelectedItemPosition(), 0);
     }
 }

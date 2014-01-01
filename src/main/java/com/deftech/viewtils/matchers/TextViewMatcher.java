@@ -5,8 +5,8 @@ import android.widget.TextView;
 
 
 public class TextViewMatcher<T extends TextView> extends ViewMatcher<T> {
-    public TextViewMatcher(ViewGroup group, Class<T> viewClass) {
-        super(group, viewClass);
+    public TextViewMatcher(ViewGroup group, Class<T> viewClass, boolean clicking) {
+        super(group, viewClass, clicking);
     }
 
     public static Requirement<TextView> textIs(final String content){
