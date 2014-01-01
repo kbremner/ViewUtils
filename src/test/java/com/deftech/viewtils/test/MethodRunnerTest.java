@@ -10,7 +10,7 @@ import org.robolectric.annotation.Config;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import static com.deftech.viewtils.helpers.Helper.with;
+import static com.deftech.viewtils.helpers.Helper.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -53,7 +53,7 @@ public class MethodRunnerTest {
     @Test
     public void testMethod(){
         methodRan = false;
-        with(this).executeOnUiThread("simpleMethod")
+        executeOnUiThread("simpleMethod", this)
                 .usingRobolectric()
                 .returningNothing();
 
@@ -63,7 +63,7 @@ public class MethodRunnerTest {
     @Test
     public void testExplicitVoidReturnType(){
         methodRan = false;
-        with(this).executeOnUiThread("simpleMethod")
+        executeOnUiThread("simpleMethod", this)
                 .usingRobolectric()
                 .returning(void.class);
         assertTrue(methodRan);
@@ -72,7 +72,7 @@ public class MethodRunnerTest {
     @Test
     public void testDelayed(){
         methodRan = false;
-        with(this).executeOnUiThread("simpleMethod")
+        executeOnUiThread("simpleMethod", this)
                 .usingRobolectric()
                 .in(200, TimeUnit.MILLISECONDS)
                 .returningNothing();
@@ -82,7 +82,7 @@ public class MethodRunnerTest {
     @Test
     public void testDifferentHandler(){
         methodRan = false;
-        with(this).executeOnUiThread("simpleMethod")
+        executeOnUiThread("simpleMethod", this)
                 .usingRobolectric()
                 .withHandler(new Handler(Looper.getMainLooper()))
                 .returningNothing();
@@ -92,7 +92,7 @@ public class MethodRunnerTest {
     @Test
     public void testRunStaticMethod(){
         methodRan = false;
-        with(MethodRunnerTest.class).executeOnUiThread("simpleStaticMethod")
+        executeOnUiThread("simpleStaticMethod", MethodRunnerTest.class)
             .usingRobolectric()
             .returningNothing();
             
@@ -102,7 +102,7 @@ public class MethodRunnerTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void testExceptionThrown() throws Throwable {
         try {
-            with(this).executeOnUiThread("simpleExceptionMethod")
+            executeOnUiThread("simpleExceptionMethod", this)
                     .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
@@ -113,7 +113,7 @@ public class MethodRunnerTest {
     @Test(expected = IOException.class)
     public void testCheckedExceptionThrown() throws Throwable {
         try {
-            with(this).executeOnUiThread("simpleCheckedExceptionMethod")
+            executeOnUiThread("simpleCheckedExceptionMethod", this)
                     .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
@@ -124,7 +124,7 @@ public class MethodRunnerTest {
     @Test(expected = NoSuchMethodException.class)
     public void testNonExistantMethod() throws Throwable {
         try {
-            with(this).executeOnUiThread("someMethodThatDoesntExist")
+            executeOnUiThread("someMethodThatDoesntExist", this)
                     .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
@@ -134,7 +134,7 @@ public class MethodRunnerTest {
 
     @Test
     public void testWithParameters(){
-        String result = with(this).executeOnUiThread("simpleMethod")
+        String result = executeOnUiThread("simpleMethod", this)
                 .withParameter("param1", String.class)
                 .withParameter("param2", String.class)
                 .returning(String.class);
@@ -145,7 +145,7 @@ public class MethodRunnerTest {
     @Test(expected = NoSuchMethodException.class)
     public void testTooFewParameters() throws Throwable {
         try {
-            with(this).executeOnUiThread("simpleMethod")
+            executeOnUiThread("simpleMethod", this)
                     .withParameter("param1", String.class)
                     .usingRobolectric()
                     .returningNothing();
@@ -157,7 +157,7 @@ public class MethodRunnerTest {
     @Test(expected = NoSuchMethodException.class)
     public void testIncorrectParameterType() throws Throwable {
         try {
-            with(this).executeOnUiThread("simpleMethod")
+            executeOnUiThread("simpleMethod", this)
                     .withParameter("param1", String.class)
                     .withParameter("param2", CharSequence.class)
                     .usingRobolectric()
@@ -170,7 +170,7 @@ public class MethodRunnerTest {
     @Test(expected = NoSuchMethodException.class)
     public void testIncorrectReturnType() throws Throwable {
         try {
-            with(this).executeOnUiThread("simpleMethod")
+            executeOnUiThread("simpleMethod", this)
                     .withParameter("param1", String.class)
                     .withParameter("param2", String.class)
                     .usingRobolectric()
@@ -183,7 +183,7 @@ public class MethodRunnerTest {
 
     @Test
     public void testPrimitiveReturnType() {
-        boolean result = with(this).executeOnUiThread("simpleMethodReturningPrimitive")
+        boolean result = executeOnUiThread("simpleMethodReturningPrimitive", this)
                 .usingRobolectric()
                 .returning(Boolean.class);
 
@@ -193,7 +193,7 @@ public class MethodRunnerTest {
     @Test(expected = NoSuchMethodException.class)
     public void testPrivateMethod() throws Throwable {
         try {
-            with(this).executeOnUiThread("simplePrivateMethod")
+            executeOnUiThread("simplePrivateMethod", this)
                     .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
@@ -204,7 +204,7 @@ public class MethodRunnerTest {
     @Test(expected = NullPointerException.class)
     public void testNullReturnType() throws Throwable {
         try {
-            with(this).executeOnUiThread("simpleMethod")
+            executeOnUiThread("simpleMethod", this)
                     .usingRobolectric()
                     .returning(null);
         } catch(RuntimeException e){

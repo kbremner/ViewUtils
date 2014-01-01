@@ -61,6 +61,13 @@ public abstract class Helper<T,C> {
         return new MethodRunner(methodName, instance, instanceClass);
     }
 
+    public static MethodRunner executeOnUiThread(String methodName, Object instance){
+        return new MethodRunner(methodName, instance, instance.getClass());
+    }
+
+    public static MethodRunner executeOnUiThread(String methodName, Class<?> instanceClass){
+        return new MethodRunner(methodName, null, instanceClass);
+    }
 
     /***
      * Returns an {@link ActivityHelper} instance to help carry
@@ -84,26 +91,5 @@ public abstract class Helper<T,C> {
 
     public static SpinnerHelper with(Spinner spinner){
         return new SpinnerHelper(spinner);
-    }
-
-    /***
-     * Returns a helper that can be used to execute a static
-     * method implemented by the provided class on the UI thread
-     * @param instanceClass The class that implements the
-     * static methods that are to be called
-     */
-    public static <T> Helper<T,Object> with(Class<T> instanceClass){
-        return new NonHelper<T, Object>(instanceClass);
-    }
-
-    /***
-     * Returns a basic {@link Helper} instance that can be
-     * used to execute methods on the UI thread using the
-     * {@link #executeOnUiThread(String)} method
-     * @param instance The object that implements the
-     * method to be called
-     */
-    public static <T> Helper<T,Object> with(T instance){
-        return new NonHelper<T, Object>(instance);
     }
 }
