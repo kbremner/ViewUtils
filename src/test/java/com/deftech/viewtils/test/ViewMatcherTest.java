@@ -270,6 +270,20 @@ public class ViewMatcherTest {
         assertEquals(spinnerItem.getText().toString(), "Item 2");
         assertEquals(spinner.getSelectedItemPosition(), 1);
     }
+    
+    @Test
+    public void testDontClickViewInSpinner(){
+        Activity activity = createActivity(SpinnerActivity.class);
+
+        // Get the spinner for checking and ensure first item is currently selected
+        Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
+        assertEquals(spinner.getSelectedItemPosition(), 0);
+
+        // Try and click a non-existant item and check that nothing was selected
+        TextView spinnerItem = with(activity).click(TextView.class).where(textIs("Non-existant Item"));
+        assertNull(spinnerItem);
+        assertEquals(spinner.getSelectedItemPosition(), 0);
+    }
 
     @Test
     public void testFindViewInSpinner(){
