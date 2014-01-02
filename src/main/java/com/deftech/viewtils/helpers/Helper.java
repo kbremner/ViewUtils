@@ -88,8 +88,4 @@ public abstract class Helper<T,C> {
     public static ViewGroupHelper with(ViewGroup group){
         return new ViewGroupHelper(group);
     }
-
-    // public static SpinnerHelper with(Spinner spinner){
-    //     return new SpinnerHelper(spinner);
-    // }
 }
