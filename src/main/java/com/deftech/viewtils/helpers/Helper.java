@@ -2,7 +2,6 @@ package com.deftech.viewtils.helpers;
 
 import android.view.ViewGroup;
 import android.app.Activity;
-import android.widget.Spinner;
 import com.deftech.viewtils.MethodRunner;
 import com.deftech.viewtils.matchers.Matcher;
 
@@ -25,16 +24,6 @@ public abstract class Helper<T,C> {
     @SuppressWarnings("unchecked")
     protected Helper(T instance){
         this(instance, (Class<T>) instance.getClass());
-    }
-    
-    /***
-     * Contructor that provides a class that
-     * is to be used to carry out further operations
-     * @param instanceClass The class to be used by the helper
-     * to carry out supported tasks
-     */
-    protected Helper(Class<T> instanceClass){
-        this(null, instanceClass);
     }
     
     /***
