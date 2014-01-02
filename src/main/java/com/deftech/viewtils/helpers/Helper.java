@@ -89,7 +89,7 @@ public abstract class Helper<T,C> {
         return new ViewGroupHelper(group);
     }
 
-    public static SpinnerHelper with(Spinner spinner){
-        return new SpinnerHelper(spinner);
-    }
+    // public static SpinnerHelper with(Spinner spinner){
+    //     return new SpinnerHelper(spinner);
+    // }
 }
