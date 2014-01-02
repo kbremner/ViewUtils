@@ -31,42 +31,31 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
     private List<T> find(ViewGroup group, Requirement<? super T> requirement, boolean findFirst){
         List<T> results = new ArrayList<T>();
-        int childCount = getChildCount(group);
 
-        for(int i=0; i < childCount; i++){
-            View currentView = getChildView(group, i);
-            // Check that the view is the correct type and meets the requirement
-            if(viewClass.isInstance(currentView) &&
-                    requirement.matchesRequirement(viewClass.cast(currentView)) &&
-                    (!clicking || currentView.performClick())){
-                results.add(viewClass.cast(currentView));
+        if(group instanceof Spinner){
+            SpinnerMatcher<T> matcher = new SpinnerMatcher<T>((Spinner) group, viewClass, clicking);
+            results.addAll(matcher.allWhere(requirement));
+        } else {
+            for(int i=0; i < group.getChildCount(); i++){
+                View currentView = group.getChildAt(i);
+                // Check that the view is the correct type and meets the requirement
+                if(viewClass.isInstance(currentView) &&
+                        requirement.matchesRequirement(viewClass.cast(currentView)) &&
+                        (!clicking || currentView.performClick())){
+                    results.add(viewClass.cast(currentView));
+                }
+    
+                // If we're not finding first match or haven't found any matches, and it's a
+                // view group, search in the current view
+                if((!findFirst || results.size() == 0) && currentView instanceof ViewGroup){
+                    results.addAll(find((ViewGroup) currentView, requirement, findFirst));
+                }
+    
+                if(results.size() > 0 && findFirst) break;
             }
-
-            if(currentView instanceof Spinner){
-                SpinnerMatcher<T> matcher = new SpinnerMatcher<T>((Spinner) currentView, viewClass, clicking);
-                results.addAll(matcher.allWhere(requirement));
-            } else if(currentView instanceof ViewGroup){
-                results.addAll(find((ViewGroup) currentView, requirement, findFirst));
-            }
-
-            if(results.size() > 0 && findFirst) break;
         }
 
         return results;
-    }
-
-
-    private int getChildCount(ViewGroup group){
-        if(group instanceof Spinner) return ((Spinner) group).getAdapter().getCount();
-        else return group.getChildCount();
-    }
-
-    private View getChildView(ViewGroup group, int position){
-        if(group instanceof Spinner){
-            return ((Spinner) group).getAdapter().getView(position, null, group);
-        } else {
-            return group.getChildAt(position);
-        }
     }
 
 
