@@ -35,7 +35,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
         // Need to deal with Spinner's differently
         if(group instanceof Spinner){
-            return find((Spinner) group, requirement);
+            return find((Spinner) group, requirement, findFirst);
         }
 
         // Loop through all the children
@@ -60,18 +60,23 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         return results;
     }
 
-    private List<T> find(Spinner spinner, Requirement<? super T> requirement){
+    private List<T> find(Spinner spinner, Requirement<? super T> requirement, boolean findFirst){
         List<T> results = new ArrayList<T>();
+        
+        // Spinner only ever has one child... Need to use it's
+        // adapter to recreate the child views for inspection
         SpinnerAdapter adapter = spinner.getAdapter();
-
-        for(int i=0; i < adapter.getCount(); i++){
-            View currentView = adapter.getView(i, null, group);
-
-            if(viewClass.isInstance(currentView) &&
-                    requirement.matchesRequirement(viewClass.cast(currentView))){
-
-                if(clicking) spinner.setSelection(i);
-                results.add(viewClass.cast(currentView));
+        if(adapter != null){
+            for(int i=0; i < adapter.getCount(); i++){
+                View currentView = adapter.getView(i, null, group);
+    
+                if(viewClass.isInstance(currentView) &&
+                        requirement.matchesRequirement(viewClass.cast(currentView))){
+    
+                    if(clicking) spinner.setSelection(i);
+                    results.add(viewClass.cast(currentView));
+                    if(results.size() > 0 && findFirst) break;
+                }
             }
         }
 
