@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,30 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         return new Requirement<View>(){
             @Override public boolean matchesRequirement(View t){
                return (t.getId() == id);
+            }
+        };
+    }
+
+    public static Requirement<TextView> textIs(final String content){
+        return new Requirement<TextView>() {
+            @Override public boolean matchesRequirement(TextView t) {
+                return t.getText().toString().equals(content);
+            }
+        };
+    }
+
+    public static Requirement<TextView> textMatches(final String regex){
+        return new Requirement<TextView>(){
+            @Override public boolean matchesRequirement(TextView t){
+                return t.getText().toString().matches(regex);
+            }
+        };
+    }
+
+    public static Requirement<TextView> textIs(final int id){
+        return new Requirement<TextView>() {
+            @Override public boolean matchesRequirement(TextView t) {
+                return t.getText().toString().equals(t.getContext().getString(id));
             }
         };
     }

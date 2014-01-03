@@ -18,7 +18,7 @@ import java.util.Set;
 
 import static com.deftech.viewtils.test.TestUtil.createActivity;
 import static com.deftech.viewtils.helpers.Helper.with;
-import static com.deftech.viewtils.matchers.TextViewMatcher.*;
+import static com.deftech.viewtils.matchers.ViewMatcher.*;
 import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
