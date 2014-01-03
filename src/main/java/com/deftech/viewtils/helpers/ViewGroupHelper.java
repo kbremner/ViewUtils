@@ -2,7 +2,6 @@ package com.deftech.viewtils.helpers;
 
 import android.view.View;
 import android.view.ViewGroup;
-import com.deftech.viewtils.matchers.Matcher;
 import com.deftech.viewtils.matchers.ViewMatcher;
 
 
@@ -26,12 +25,12 @@ public class ViewGroupHelper extends Helper<ViewGroup,View> {
     /***
      * Returns a {@link ViewMatcher} to help find a view of the provided type
      * within this Helper's ViewGroup
-     * @param view the class that represents the type of view to find
+     * @param viewClass the class that represents the type of view to find
      * @param <T> the type of view to find
      * @return a {@link ViewMatcher} that can be used to find a view of the specified type
      */
-    public <T extends View> ViewMatcher<T> find(Class<T> view){
-        return new ViewMatcher<T>(instance, view, false);
+    public <T extends View> ViewMatcher<T> find(Class<T> viewClass){
+        return new ViewMatcher<T>(instance, viewClass, false);
     }
 
     /***

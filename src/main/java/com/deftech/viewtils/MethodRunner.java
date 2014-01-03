@@ -45,7 +45,15 @@ public class MethodRunner {
         primMap.put(void.class, Void.class);
     }
 
-    
+
+    public static MethodRunner executeOnUiThread(String methodName, Object instance){
+        return new MethodRunner(methodName, instance, instance.getClass());
+    }
+
+    public static MethodRunner executeOnUiThread(String methodName, Class<?> instanceClass){
+        return new MethodRunner(methodName, null, instanceClass);
+    }
+
     /***
      * Create a new MethodRunner that can be used to call
      * a method with the provided name on the provided instance. 
@@ -53,7 +61,7 @@ public class MethodRunner {
      * @param instance Instance that implements the method. Can be null if calling a static method
      * @param instanceClass Class that defines the method
      */
-    public MethodRunner(String methodName, Object instance, Class<?> instanceClass){
+    private MethodRunner(String methodName, Object instance, Class<?> instanceClass){
         this.methodName = methodName;
         this.instance = instance;
         this.instanceClass = instanceClass;

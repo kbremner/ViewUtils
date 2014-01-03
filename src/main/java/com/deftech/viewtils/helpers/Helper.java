@@ -13,32 +13,30 @@ import com.deftech.viewtils.matchers.Matcher;
  */
 public abstract class Helper<T,C> {
     protected final T instance;
-    protected final Class<T> instanceClass;
-
-    /***
-     * Contructor that provides an instance that
-     * is to be used to carry out further operations
-     * @param instance The instance to be used by the helper
-     * to carry out supported tasks
-     */
-    @SuppressWarnings("unchecked")
-    protected Helper(T instance){
-        this(instance, (Class<T>) instance.getClass());
-    }
     
     /***
      * Contructor that provides an insstance and a class that
      * are to be used to carry out further operations
      * @param instance The instance to be used by the helper
-     * @param instanceClass The class to be used by the helper
      */
-    protected Helper(T instance, Class<T> instanceClass){
+    protected Helper(T instance){
         this.instance = instance;
-        this.instanceClass = instanceClass;
     }
 
-
+    /***
+     * Get a {@link Matcher} instance for finding an instance of the specified type
+     * @param instanceClass Class defining the type of instance to find
+     * @param <T> Type of instance to find
+     * @return {@link Matcher} instance for finding an instance of the specified type
+     */
     public abstract <T extends C> Matcher<T> find(Class<T> instanceClass);
+
+    /***
+     * Get a {@link Matcher} instance for clicking an instance of the specified type
+     * @param instanceClass Class defining the type of instance to click
+     * @param <T> Type of instance to click
+     * @return {@link Matcher} instance for clicking an instance of the specified type
+     */
     public abstract <T extends C> Matcher<T> click(Class<T> instanceClass);
 
     /***
@@ -47,15 +45,7 @@ public abstract class Helper<T,C> {
      * @param methodName the name of the method to be executed
      */
     public MethodRunner executeOnUiThread(String methodName){
-        return new MethodRunner(methodName, instance, instanceClass);
-    }
-
-    public static MethodRunner executeOnUiThread(String methodName, Object instance){
-        return new MethodRunner(methodName, instance, instance.getClass());
-    }
-
-    public static MethodRunner executeOnUiThread(String methodName, Class<?> instanceClass){
-        return new MethodRunner(methodName, null, instanceClass);
+        return MethodRunner.executeOnUiThread(methodName, instance);
     }
 
     /***
