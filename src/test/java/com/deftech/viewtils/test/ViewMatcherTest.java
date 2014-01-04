@@ -31,7 +31,7 @@ public class ViewMatcherTest {
     public void testFindTextView() {
         TextView view = with(createActivity(SimpleActivity.class)).find(TextView.class).where(textIs("New Text"));
         assertNotNull(view);
-        assertEquals(view.getText().toString(), "New Text");
+        assertEquals("New Text", view.getText().toString());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class ViewMatcherTest {
         ViewGroup viewGroup = (ViewGroup) activity.findViewById(android.R.id.content);
         TextView view = with(viewGroup).find(TextView.class).where(textIs("New Text"));
         assertNotNull(view);
-        assertEquals(view.getText().toString(), "New Text");
+        assertEquals("New Text", view.getText().toString());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ViewMatcherTest {
     public void testFindTextViewWithId() {
         TextView view = with(createActivity(SimpleActivity.class)).find(TextView.class).where(idIs(R.id.textView));
         assertNotNull(view);
-        assertEquals(view.getId(), R.id.textView);
+        assertEquals(R.id.textView, view.getId());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ViewMatcherTest {
             }
         });
         assertNotNull(view);
-        assertEquals(view.getVisibility(), View.VISIBLE);
+        assertEquals(View.VISIBLE, view.getVisibility());
     }
 
     @Test
@@ -86,8 +86,8 @@ public class ViewMatcherTest {
         reqs.add(idIs(R.id.textView));
         List<TextView> result = with(createActivity(SimpleActivity.class)).find(TextView.class).allWhere(matchesAll(reqs));
 
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getText().toString(), "New Text");
+        assertEquals(1, result.size());
+        assertEquals("New Text", result.get(0).getText().toString());
     }
 
     @Test
@@ -96,18 +96,19 @@ public class ViewMatcherTest {
         reqs.add(textIs(R.string.tv_str));
         reqs.add(idIs(R.id.button));
         List<TextView> result = with(createActivity(SimpleActivity.class)).find(TextView.class).allWhere(matchesAll(reqs));
-        assertEquals(result.size(), 0);
+        assertEquals(0, result.size());
     }
 
     @Test
     public void testFindTextViewsMatchesAny(){
+        Activity activity = createActivity(SimpleActivity.class);
         Set<Requirement<? super TextView>> reqs = new HashSet<Requirement<? super TextView>>();
         reqs.add(textIs(R.string.tv_str));
         reqs.add(idIs(0)); // Purposefully wrong...
-        List<TextView> result = with(createActivity(SimpleActivity.class)).find(TextView.class).allWhere(matchesAny(reqs));
+        List<TextView> result = with(activity).find(TextView.class).allWhere(matchesAny(reqs));
 
-        assertEquals(result.size(), 1);
-        assertEquals(result.get(0).getText().toString(), result.get(0).getContext().getString(R.string.tv_str));
+        assertEquals(1, result.size());
+        assertEquals(activity.getString(R.string.tv_str), result.get(0).getText().toString());
     }
 
     @Test
@@ -116,19 +117,19 @@ public class ViewMatcherTest {
         reqs.add(textIs("Some other text string"));
         reqs.add(idIs(0));
         List<TextView> result = with(createActivity(SimpleActivity.class)).find(TextView.class).allWhere(matchesAny(reqs));
-        assertEquals(result.size(), 0);
+        assertEquals(0, result.size());
     }
 
     @Test
     public void testFindAllTextViewsWithId(){
         List<TextView> results = with(createActivity(SimpleActivity.class)).find(TextView.class).allWhere(idIs(R.id.textView));
-        assertEquals(results.size(), 1);  // TextView
+        assertEquals(1, results.size());  // TextView
     }
 
     @Test
     public void testFindAllTextViews(){
         List<TextView> results = with(createActivity(SimpleActivity.class)).find(TextView.class).allWhere(exists());
-        assertEquals(results.size(), 2);  // Button, TextView
+        assertEquals(2, results.size());  // Button, TextView
     }
 
 
@@ -138,14 +139,14 @@ public class ViewMatcherTest {
     public void testFindButton() {
         Button view = with(createActivity(SimpleActivity.class)).find(Button.class).where(textIs("New Button"));
         assertNotNull(view);
-        assertEquals(view.getText().toString(), "New Button");
+        assertEquals("New Button", view.getText().toString());
     }
 
     @Test
     public void testFindButtonWithId() {
         Button view = with(createActivity(SimpleActivity.class)).find(Button.class).where(idIs(R.id.button));
         assertNotNull(view);
-        assertEquals(view.getId(), R.id.button);
+        assertEquals(R.id.button, view.getId());
     }
 
     @Test
@@ -156,14 +157,15 @@ public class ViewMatcherTest {
             }
         });
         assertNotNull(view);
-        assertEquals(view.getVisibility(), View.VISIBLE);
+        assertEquals(View.VISIBLE, view.getVisibility());
     }
 
     @Test
     public void testFindButtonMatchesRegex() {
-        Button view = with(createActivity(SimpleActivity.class)).find(Button.class).where(textMatches(".*Button"));
+        Activity activity = createActivity(SimpleActivity.class);
+        Button view = with(activity).find(Button.class).where(textMatches(".*Button"));
         assertNotNull(view);
-        assertEquals(view.getText().toString(), view.getContext().getString(R.string.btn_str));
+        assertEquals(activity.getString(R.string.btn_str), view.getText().toString());
     }
 
     @Test
@@ -181,14 +183,15 @@ public class ViewMatcherTest {
     @Test
     public void testFindAllButtons(){
         List<Button> results = with(createActivity(SimpleActivity.class)).find(Button.class).allWhere(exists());
-        assertEquals(results.size(), 1);  // Button
+        assertEquals(1, results.size());  // Button
     }
 
     @Test
     public void testFindButtonWithStringId() {
-        Button view = with(createActivity(SimpleActivity.class)).find(Button.class).where(textIs(R.string.btn_str));
+        Activity activity = createActivity(SimpleActivity.class);
+        Button view = with(activity).find(Button.class).where(textIs(R.string.btn_str));
         assertNotNull(view);
-        assertEquals(view.getText().toString(), view.getContext().getString(R.string.btn_str));
+        assertEquals(activity.getString(R.string.btn_str), view.getText().toString());
     }
 
     @Test
@@ -243,19 +246,19 @@ public class ViewMatcherTest {
         Activity activity = createActivity(SimpleActivity.class);
         ViewGroup group = with(activity).find(ViewGroup.class).where(idIs(R.id.layout));
         assertNotNull(group);
-        assertEquals(group, activity.findViewById(R.id.layout));
+        assertEquals(activity.findViewById(R.id.layout), group);
     }
 
     @Test
     public void testClickViewWithSpinner(){
         Activity activity = createActivity(SpinnerActivity.class);
         Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
-        assertEquals(spinner.getSelectedItemPosition(), 0);
+        assertEquals(0, spinner.getSelectedItemPosition());
 
         TextView spinnerItem = with(spinner).click(TextView.class).where(textIs("Item 3"));
         assertNotNull(spinnerItem);
-        assertEquals(spinner.getSelectedItemPosition(), 2);
-        assertEquals(spinnerItem.getText().toString(), "Item 3");
+        assertEquals(2, spinner.getSelectedItemPosition());
+        assertEquals("Item 3", spinnerItem.getText().toString());
     }
 
     @Test
@@ -264,13 +267,13 @@ public class ViewMatcherTest {
 
         // Get the spinner for checking and ensure first item is currently selected
         Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
-        assertEquals(spinner.getSelectedItemPosition(), 0);
+        assertEquals(0, spinner.getSelectedItemPosition());
 
         // Click the appropriate view and check that it was selected
         TextView spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
         assertNotNull(spinnerItem);
-        assertEquals(spinnerItem.getText().toString(), "Item 2");
-        assertEquals(spinner.getSelectedItemPosition(), 1);
+        assertEquals("Item 2", spinnerItem.getText().toString());
+        assertEquals(1, spinner.getSelectedItemPosition());
     }
     
     @Test
@@ -279,12 +282,12 @@ public class ViewMatcherTest {
 
         // Get the spinner for checking and ensure first item is currently selected
         Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
-        assertEquals(spinner.getSelectedItemPosition(), 0);
+        assertEquals(0, spinner.getSelectedItemPosition());
 
         // Try and click a non-existant item and check that nothing was selected
         TextView spinnerItem = with(activity).click(TextView.class).where(textIs("Non-existant Item"));
         assertNull(spinnerItem);
-        assertEquals(spinner.getSelectedItemPosition(), 0);
+        assertEquals(0, spinner.getSelectedItemPosition());
     }
 
     @Test
@@ -293,13 +296,13 @@ public class ViewMatcherTest {
 
         // Get the spinner for checking and ensure first item is currently selected
         Spinner spinner = with(activity).find(Spinner.class).where(idIs(R.id.spinner));
-        assertEquals(spinner.getSelectedItemPosition(), 0);
+        assertEquals(0, spinner.getSelectedItemPosition());
 
         // Find the appropriate view and check that it was *not* selected
         TextView spinnerItem = with(activity).find(TextView.class).where(textIs("Item 2"));
         assertNotNull(spinnerItem);
-        assertEquals(spinnerItem.getText().toString(), "Item 2");
-        assertEquals(spinner.getSelectedItemPosition(), 0);
+        assertEquals("Item 2", spinnerItem.getText().toString());
+        assertEquals(0, spinner.getSelectedItemPosition());
     }
 
     @Test

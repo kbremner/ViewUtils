@@ -25,19 +25,19 @@ public class BaseMatcherTest {
         Activity activity = createActivity(SimpleActivity.class);
         Button b = with(activity).find(Button.class).where(is(activity.findViewById(R.id.button)));
         assertNotNull(b);
-        assertEquals(b, activity.findViewById(R.id.button));
+        assertEquals(activity.findViewById(R.id.button), b);
     }
 
     @Test
     public void testFindAllViews(){
         List<View> results = with(createActivity(SimpleActivity.class)).find(View.class).allWhere(exists());
-        assertEquals(results.size(), 3);  // LinearLayout, Button, TextView
+        assertEquals(3, results.size());  // LinearLayout, Button, TextView
     }
 
     @Test
     public void testNot(){
         List<View> results = with(createActivity(SimpleActivity.class)).find(View.class).allWhere(not(exists()));
-        assertEquals(results.size(), 0);
+        assertEquals(0, results.size());
     }
 
     @Test

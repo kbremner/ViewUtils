@@ -131,7 +131,7 @@ public class MethodRunnerTest {
                 .withParameter("param2", String.class)
                 .returning(String.class);
 
-        assertEquals(result, "param1param2");
+        assertEquals("param1param2", result);
     }
 
     @Test(expected = NoSuchMethodException.class)
