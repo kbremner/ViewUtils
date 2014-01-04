@@ -299,4 +299,12 @@ public class ViewMatcherTest {
         assertEquals(spinnerItem.getText().toString(), "Item 2");
         assertEquals(spinner.getSelectedItemPosition(), 0);
     }
+
+    @Test
+    public void testSpinnerNoAdapter(){
+        Spinner spinner = new Spinner(createActivity(SimpleActivity.class));
+        assertNull(spinner.getAdapter());
+        TextView spinnerItem = with(spinner).find(TextView.class).where(textIs("Item 2"));
+        assertNull(spinnerItem);
+    }
 }
