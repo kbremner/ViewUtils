@@ -55,6 +55,11 @@ TextView view = with(activity).find(TextView.class).where(new Requirement<View>(
     }
 });
 ```
+- Click on a view:
+
+```java
+with(activity).click(Button.class).where(textMatches("Click.*"));
+```
 - Select an item in a spinner:
 
 ```java
@@ -77,12 +82,6 @@ execute(textView, "setText")
 CharSequence text = execute(textView, "getText")
     .in(3, TimeUnit.SECONDS)
     .returning(CharSequence.class);
-```
-
-- Click on a view:
-
-```java
-with(activity).click(Button.class).where(textMatches("Click.*"));
 ```
 
 Dependencies
