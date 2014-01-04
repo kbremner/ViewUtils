@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 /***
  * Helps interact with an {@link android.app.Dialog}. When
  * searching for a view, it starts at the view returned
- * by {@code activity.findViewById(android.R.id.content)}
+ * by {@code dialog.findViewById(android.R.id.content)}
  * @see com.deftech.viewtils.helpers.ViewGroupHelper
  */
 public class DialogHelper extends ViewGroupHelper {
