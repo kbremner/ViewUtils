@@ -1,5 +1,6 @@
 package com.deftech.viewtils.helpers;
 
+import android.app.Dialog;
 import android.view.ViewGroup;
 import android.app.Activity;
 import com.deftech.viewtils.MethodRunner;
@@ -66,5 +67,9 @@ public abstract class Helper<T,C> {
      */
     public static ViewGroupHelper with(ViewGroup group){
         return new ViewGroupHelper(group);
+    }
+
+    public static DialogHelper with(Dialog dialog){
+        return new DialogHelper(dialog);
     }
 }

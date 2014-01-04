@@ -1,6 +1,8 @@
 package com.deftech.viewtils.test;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -306,5 +308,40 @@ public class ViewMatcherTest {
         assertNull(spinner.getAdapter());
         TextView spinnerItem = with(spinner).find(TextView.class).where(textIs("Item 2"));
         assertNull(spinnerItem);
+    }
+
+    @Test
+    public void testFindInDialog(){
+        String someMsg = "Some Message";
+
+        // Create a new dialog to search in, with the message as content
+        Dialog d = new AlertDialog.Builder(createActivity(SimpleActivity.class))
+                .setMessage(someMsg)
+                .create();
+
+        // Has to be showing for search to work
+        d.show();
+
+        // Search for a text view with the message and check we got a result
+        TextView result = with(d).find(TextView.class).where(textIs(someMsg));
+        assertNotNull(result);
+        assertEquals(someMsg, result.getText().toString());
+    }
+
+    @Test
+    public void testDontFindInDialog(){
+        String someMsg = "Some Message";
+
+        // Create a new dialog to search in, with the message as content
+        Dialog d = new AlertDialog.Builder(createActivity(SimpleActivity.class))
+                .setMessage("Some other message")
+                .create();
+
+        // Has to be showing for search to work
+        d.show();
+
+        // Search for a text view with the message and check we *didn't* get a result
+        TextView result = with(d).find(TextView.class).where(textIs(someMsg));
+        assertNull(result);
     }
 }
