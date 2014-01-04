@@ -67,7 +67,8 @@ spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
 - Carry out a method call on the main application (UI) thread:
 
 ```java
-// usingRobolectric() ensures that the Looper
+// usingRobolectric() is required when using Robolectric to ensure that
+// the relevant Looper's messages are processed (and so carrying out the operation)
 execute(textView, "setText")
     .withParameter("Some text", CharSequence.class)
     .usingRobolectric()
@@ -77,7 +78,7 @@ CharSequence text = execute(textView, "getText")
     .in(3, TimeUnit.SECONDS)
     .returning(CharSequence.class);
 ```
-*(Note that calling `usingRobolectric()` ensures that `Robolectric.runUiThreadTasksIncludingDelayedTasks()` is called)* 
+
 - Click on a view:
 
 ```java
