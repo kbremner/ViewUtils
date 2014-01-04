@@ -54,7 +54,6 @@ public class MethodRunnerTest {
     public void testMethod(){
         methodRan = false;
         execute(this, "simpleMethod")
-                .usingRobolectric()
                 .returningNothing();
 
         assertTrue(methodRan);
@@ -64,7 +63,6 @@ public class MethodRunnerTest {
     public void testExplicitVoidReturnType(){
         methodRan = false;
         execute(this, "simpleMethod")
-                .usingRobolectric()
                 .returning(void.class);
         assertTrue(methodRan);
     }
@@ -73,7 +71,6 @@ public class MethodRunnerTest {
     public void testDelayed(){
         methodRan = false;
         execute(this, "simpleMethod")
-                .usingRobolectric()
                 .in(200, TimeUnit.MILLISECONDS)
                 .returningNothing();
         assertTrue(methodRan);
@@ -83,7 +80,6 @@ public class MethodRunnerTest {
     public void testDifferentHandler(){
         methodRan = false;
         execute(this, "simpleMethod")
-                .usingRobolectric()
                 .withHandler(new Handler(Looper.getMainLooper()))
                 .returningNothing();
         assertTrue(methodRan);
@@ -93,7 +89,6 @@ public class MethodRunnerTest {
     public void testRunStaticMethod(){
         methodRan = false;
         execute(MethodRunnerTest.class, "simpleStaticMethod")
-            .usingRobolectric()
             .returningNothing();
             
         assertTrue("Static method didn't run", methodRan);
@@ -103,7 +98,6 @@ public class MethodRunnerTest {
     public void testExceptionThrown() throws Throwable {
         try {
             execute(this, "simpleExceptionMethod")
-                    .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
             throw e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
@@ -114,7 +108,6 @@ public class MethodRunnerTest {
     public void testCheckedExceptionThrown() throws Throwable {
         try {
             execute(this, "simpleCheckedExceptionMethod")
-                    .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
             throw e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
@@ -125,7 +118,6 @@ public class MethodRunnerTest {
     public void testNonExistantMethod() throws Throwable {
         try {
             execute(this, "someMethodThatDoesntExist")
-                    .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
             throw e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
@@ -147,7 +139,6 @@ public class MethodRunnerTest {
         try {
             execute(this, "simpleMethod")
                     .withParameter("param1", String.class)
-                    .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
             throw (e.getCause() == null) ? e : e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
@@ -160,7 +151,6 @@ public class MethodRunnerTest {
             execute(this, "simpleMethod")
                     .withParameter("param1", String.class)
                     .withParameter("param2", CharSequence.class)
-                    .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
             throw (e.getCause() == null) ? e : e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
@@ -173,7 +163,6 @@ public class MethodRunnerTest {
             execute(this, "simpleMethod")
                     .withParameter("param1", String.class)
                     .withParameter("param2", String.class)
-                    .usingRobolectric()
                     .returning(Integer.class);
 
         } catch(RuntimeException e){
@@ -184,7 +173,6 @@ public class MethodRunnerTest {
     @Test
     public void testPrimitiveReturnType() {
         boolean result = execute(this, "simpleMethodReturningPrimitive")
-                .usingRobolectric()
                 .returning(Boolean.class);
 
         assertTrue(result);
@@ -194,7 +182,6 @@ public class MethodRunnerTest {
     public void testPrivateMethod() throws Throwable {
         try {
             execute(this, "simplePrivateMethod")
-                    .usingRobolectric()
                     .returningNothing();
         } catch(RuntimeException e){
             throw (e.getCause() == null) ? e : e.getCause(); // MethodRunner wraps all exceptions, need to unwrap
@@ -205,7 +192,6 @@ public class MethodRunnerTest {
     public void testNullReturnType() throws Throwable {
         try {
             execute(this, "simpleMethod")
-                    .usingRobolectric()
                     .returning(null);
         } catch(RuntimeException e){
             throw (e.getCause() == null) ? e : e.getCause(); // MethodRunner wraps all exceptions, need to unwrap

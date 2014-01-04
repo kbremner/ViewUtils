@@ -14,8 +14,8 @@ public class DialogHelper extends ViewGroupHelper {
 
     /***
      * Create a new instance to help interact with the
-     * provided {@link android.app.Activity}
-     * @param instance Activity to be used for carrying out operations
+     * provided {@link Dialog}
+     * @param instance Dialog to be used for carrying out operations
      */
     DialogHelper(Dialog instance) {
         super((ViewGroup)instance.findViewById(android.R.id.content));

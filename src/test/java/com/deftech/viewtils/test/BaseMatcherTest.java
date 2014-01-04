@@ -42,6 +42,6 @@ public class BaseMatcherTest {
 
     @Test
     public void testFromComparable(){
-        assertTrue(fromComparable(true).matchesRequirement(true));
+        assertTrue(fromComparable(true).isMatch(true));
     }
 }

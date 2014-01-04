@@ -71,7 +71,7 @@ public class ViewMatcherTest {
     public void testFindTextViewWithCustomReq() {
         TextView view = with(createActivity(SimpleActivity.class)).find(TextView.class).where(new Requirement<View>() {
             @Override
-            public boolean matchesRequirement(View instance) {
+            public boolean isMatch(View instance) {
                 return instance.getVisibility() == View.VISIBLE;
             }
         });
@@ -151,7 +151,7 @@ public class ViewMatcherTest {
     @Test
     public void testFindButtonWithCustomReq() {
         Button view = with(createActivity(SimpleActivity.class)).find(Button.class).where(new Requirement<View>() {
-            @Override public boolean matchesRequirement(View instance) {
+            @Override public boolean isMatch(View instance) {
                 return instance.getVisibility() == View.VISIBLE;
             }
         });

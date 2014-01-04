@@ -11,6 +11,8 @@ import com.deftech.viewtils.matchers.Matcher;
  * Helper instances provide support for interacting with an object
  * @see ActivityHelper
  * @see ViewGroupHelper
+ * @param <T> The type that the Helper is associated with
+ * @param <C> The type of objects that the provided instance holds
  */
 public abstract class Helper<T,C> {
     protected final T instance;
@@ -50,7 +52,7 @@ public abstract class Helper<T,C> {
     }
 
     /***
-     * Returns an {@link ActivityHelper} instance to help carry
+     * Get an {@link ActivityHelper} instance to help carry
      * out various tasks using the provided {@link Activity}
      * @param activity {@link Activity} to be used for carrying out
      * supported tasks
@@ -60,7 +62,7 @@ public abstract class Helper<T,C> {
     }
     
     /***
-     * Returns a {@link ViewGroupHelper} instance to help carry
+     * Get a {@link ViewGroupHelper} instance to help carry
      * out various tasks using the provided {@link ViewGroup}
      * @param group {@link ViewGroup} to be used for carrying out
      * supported tasks
@@ -69,6 +71,12 @@ public abstract class Helper<T,C> {
         return new ViewGroupHelper(group);
     }
 
+    /***
+     * Get a {@link DialogHelper} instance to help carry
+     * out various tasks using the provided {@link Dialog}
+     * @param dialog {@link Dialog} to be used for carrying out
+     * supported tasks
+     */
     public static DialogHelper with(Dialog dialog){
         return new DialogHelper(dialog);
     }

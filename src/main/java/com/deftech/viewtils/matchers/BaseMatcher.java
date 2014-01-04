@@ -14,9 +14,9 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
 
     public static <T> Requirement<T> matchesAll(final Iterable<Requirement<? super T>> reqs){
         return new Requirement<T>() {
-            @Override public boolean matchesRequirement(T instance) {
+            @Override public boolean isMatch(T instance) {
                 for (Requirement<? super T> req : reqs) {
-                    if (!req.matchesRequirement(instance)) return false;
+                    if (!req.isMatch(instance)) return false;
                 }
                 return true;
             }
@@ -29,9 +29,9 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
 
     public static <T> Requirement<T> matchesAny(final Iterable<Requirement<? super T>> reqs){
         return new Requirement<T>() {
-            @Override public boolean matchesRequirement(T instance) {
+            @Override public boolean isMatch(T instance) {
                 for (Requirement<? super T> req : reqs) {
-                    if (req.matchesRequirement(instance)) return true;
+                    if (req.isMatch(instance)) return true;
                 }
                 return false;
             }
@@ -40,11 +40,11 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
 
     /***
      * Returns a requirement that all objects match
-     * @return A requirement where {@code matchesRequirement} returns true if {@code instance != null}
+     * @return A requirement where {@code isMatch} returns true if {@code instance != null}
      */
     public static Requirement<Object> exists(){
         return new Requirement<Object>() {
-            @Override public boolean matchesRequirement(Object instance) {
+            @Override public boolean isMatch(Object instance) {
                 return instance != null;
             }
         };
@@ -58,7 +58,7 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
      */
     public static Requirement<Object> is(final Object instance){
         return new Requirement<Object>() {
-            @Override public boolean matchesRequirement(Object i) {
+            @Override public boolean isMatch(Object i) {
                 return instance.equals(i);
             }
         };
@@ -72,8 +72,8 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
      */
     public static <T> Requirement<T> not(final Requirement<T> req){
         return new Requirement<T>() {
-            @Override public boolean matchesRequirement(T instance) {
-                return !req.matchesRequirement(instance);
+            @Override public boolean isMatch(T instance) {
+                return !req.isMatch(instance);
             }
         };
     }
@@ -87,7 +87,7 @@ public abstract class BaseMatcher<T> implements Matcher<T> {
      */
     public static <T> Requirement<T> fromComparable(final Comparable<T> comparable){
         return new Requirement<T>() {
-            @Override public boolean matchesRequirement(T instance) {
+            @Override public boolean isMatch(T instance) {
                 return (comparable.compareTo(instance) == 0);
             }
         };

@@ -50,7 +50,7 @@ List<Button> result = with(activity).find(Button.class).allWhere(not(textIs(R.st
 
 ```java
 TextView view = with(activity).find(TextView.class).where(new Requirement<View>() {
-    @Override public boolean matchesRequirement(View instance) {
+    @Override public boolean isMatch(View instance) {
         return instance.getVisibility() == View.VISIBLE;
     }
 });
@@ -72,14 +72,13 @@ spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
 - Carry out a method call on the main application (UI) thread:
 
 ```java
-// usingRobolectric() is required when using Robolectric to ensure that
-// the relevant Looper's messages are processed (and so carrying out the operation)
+// By default calls are posted to the main looper to be carried out
 execute(textView, "setText")
     .withParameter("Some text", CharSequence.class)
-    .usingRobolectric()
     .returningNothing();
     
 CharSequence text = execute(textView, "getText")
+    .withHandler(handler)
     .in(3, TimeUnit.SECONDS)
     .returning(CharSequence.class);
 ```

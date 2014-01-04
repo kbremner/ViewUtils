@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
 
 
 /***
@@ -20,12 +21,12 @@ import java.util.concurrent.atomic.AtomicReference;
  * @see Handler#post(Runnable)
  */
 public class MethodRunner {
+    private final Logger logger = Logger.getLogger(MethodRunner.class.getSimpleName());
     private final String methodName;
     private List<Object> args = new ArrayList<Object>();
     private List<Class<?>> paramTypes = new ArrayList<Class<?>>();
     private final Object instance;
     private Class<?> instanceClass;
-    private boolean withRobolectric;
     private Handler handler;
     private Long time;
 
@@ -77,17 +78,6 @@ public class MethodRunner {
     public <P> MethodRunner withParameter(P instance, Class<P> instanceClass){
         args.add(instance);
         paramTypes.add(instanceClass);
-        return this;
-    }
-
-    /***
-     * Stipulate that Robolectric is being used. The MethodRunner will
-     * call {@code Robolectric.runUiThreadTasksIncludingDelayedTasks()}
-     * to ensure that the method is executed
-     * @return This instance to allow for method chaining
-     */
-    public MethodRunner usingRobolectric(){
-        withRobolectric = true;
         return this;
     }
 
@@ -153,10 +143,8 @@ public class MethodRunner {
             // If a delay was defined, use it, else post now
             handler.postDelayed(runnable, (time != null) ? time : 0);
 
-            // If using robolectric, advance the looper
-            if(withRobolectric){
-                runRobolectricLooper();
-            }
+            // if using Robolectric, need to advance the appropriate looper
+            runRobolectricLooper();
 
             // Wait for the method call to finish
             while(!finished.get());
@@ -188,19 +176,19 @@ public class MethodRunner {
 
     private  void runRobolectricLooper(){
         try {
-            // Get the appropriate looper
-            Looper looper = (handler != null) ? handler.getLooper() : Looper.getMainLooper();
-
             // Get the required robolectric classes
             Class<?> shadowLooperClass = Class.forName("org.robolectric.shadows.ShadowLooper");
             Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
+
+            // Get the appropriate looper
+            Looper looper = (handler != null) ? handler.getLooper() : Looper.getMainLooper();
 
             // Get the ShadowLooper using Robolectric.shadowOf(Looper)
             Object shadowLooper = robolectricClass.getMethod("shadowOf", Looper.class).invoke(null, looper);
             // Run all the tasks posted to the looper
             shadowLooperClass.getMethod("runToEndOfTasks").invoke(shadowLooper);
         } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
+            logger.fine("Not using Robolectric");
         }
     }
 }

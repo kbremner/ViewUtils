@@ -10,5 +10,5 @@ public interface Requirement<T> {
      * @param instance instance to test
      * @return true if the instance matches this requirement, else false
      */
-    public boolean matchesRequirement(T instance);
+    public boolean isMatch(T instance);
 }

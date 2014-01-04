@@ -44,7 +44,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
             View currentView = group.getChildAt(i);
             // Check that the view is the correct type and meets the requirement
             if(viewClass.isInstance(currentView) &&
-                    requirement.matchesRequirement(viewClass.cast(currentView)) &&
+                    requirement.isMatch(viewClass.cast(currentView)) &&
                     (!clicking || currentView.performClick())){
                 results.add(viewClass.cast(currentView));
             }
@@ -72,7 +72,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
                 View currentView = adapter.getView(i, null, group);
     
                 if(viewClass.isInstance(currentView) &&
-                        requirement.matchesRequirement(viewClass.cast(currentView))){
+                        requirement.isMatch(viewClass.cast(currentView))){
     
                     if(clicking) spinner.setSelection(i);
                     results.add(viewClass.cast(currentView));
@@ -87,7 +87,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
     public static Requirement<View> idIs(final int id){
         return new Requirement<View>(){
-            @Override public boolean matchesRequirement(View t){
+            @Override public boolean isMatch(View t){
                return (t.getId() == id);
             }
         };
@@ -95,7 +95,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
     public static Requirement<TextView> textIs(final String content){
         return new Requirement<TextView>() {
-            @Override public boolean matchesRequirement(TextView t) {
+            @Override public boolean isMatch(TextView t) {
                 return t.getText().toString().equals(content);
             }
         };
@@ -103,7 +103,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
     public static Requirement<TextView> textMatches(final String regex){
         return new Requirement<TextView>(){
-            @Override public boolean matchesRequirement(TextView t){
+            @Override public boolean isMatch(TextView t){
                 return t.getText().toString().matches(regex);
             }
         };
@@ -111,7 +111,7 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
     public static Requirement<TextView> textIs(final int id){
         return new Requirement<TextView>() {
-            @Override public boolean matchesRequirement(TextView t) {
+            @Override public boolean isMatch(TextView t) {
                 return t.getText().toString().equals(t.getContext().getString(id));
             }
         };
