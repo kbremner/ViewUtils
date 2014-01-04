@@ -67,13 +67,13 @@ spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
 - Carry out a method call on the main application (UI) thread:
 
 ```java
-with(view).executeOnUiThread("setText")
+// usingRobolectric() ensures that the Looper
+execute(textView, "setText")
     .withParameter("Some text", CharSequence.class)
     .usingRobolectric()
     .returningNothing();
     
-CharSequence text = with(view)
-    .executeOnUiThread("getText")
+CharSequence text = execute(textView, "getText")
     .in(3, TimeUnit.SECONDS)
     .returning(CharSequence.class);
 ```

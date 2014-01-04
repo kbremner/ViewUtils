@@ -41,11 +41,11 @@ public abstract class Helper<T,C> {
 
     /***
      * Returns a {@link com.deftech.viewtils.MethodRunner} that can be used to
-     * call a method with the name provided on the UI thread.
+     * call a method with the name provided on the UI thread
      * @param methodName the name of the method to be executed
      */
-    public MethodRunner executeOnUiThread(String methodName){
-        return MethodRunner.executeOnUiThread(methodName, instance);
+    public MethodRunner execute(String methodName){
+        return MethodRunner.execute(instance, methodName);
     }
 
     /***

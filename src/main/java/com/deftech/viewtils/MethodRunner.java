@@ -46,11 +46,11 @@ public class MethodRunner {
     }
 
 
-    public static MethodRunner executeOnUiThread(String methodName, Object instance){
+    public static MethodRunner execute(Object instance, String methodName){
         return new MethodRunner(methodName, instance, instance.getClass());
     }
 
-    public static MethodRunner executeOnUiThread(String methodName, Class<?> instanceClass){
+    public static MethodRunner execute(Class<?> instanceClass, String methodName){
         return new MethodRunner(methodName, null, instanceClass);
     }
 
@@ -186,10 +186,19 @@ public class MethodRunner {
         return primClass;
     }
 
-    public static void runRobolectricLooper(){
+    private  void runRobolectricLooper(){
         try {
+            // Get the appropriate looper
+            Looper looper = (handler != null) ? handler.getLooper() : Looper.getMainLooper();
+
+            // Get the required robolectric classes
+            Class<?> shadowLooperClass = Class.forName("org.robolectric.shadows.ShadowLooper");
             Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
-            robolectricClass.getMethod("runUiThreadTasksIncludingDelayedTasks").invoke(null);
+
+            // Get the ShadowLooper using Robolectric.shadowOf(Looper)
+            Object shadowLooper = robolectricClass.getMethod("shadowOf", Looper.class).invoke(null, looper);
+            // Run all the tasks posted to the looper
+            shadowLooperClass.getMethod("runToEndOfTasks").invoke(shadowLooper);
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
         }
