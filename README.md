@@ -69,14 +69,14 @@ TextView spinnerItem = with(spinner).click(TextView.class).where(textIs("Item 3"
 // Or find it within an activity
 spinnerItem = with(activity).click(TextView.class).where(textIs("Item 2"));
 ```
-- Carry out a method call on the main application (UI) thread:
+- Carry out a method call on another thread:
 
 ```java
 // By default calls are posted to the main looper to be carried out
 execute(textView, "setText")
     .withParameter("Some text", CharSequence.class)
     .returningNothing();
-    
+
 CharSequence text = execute(textView, "getText")
     .withHandler(handler)
     .in(3, TimeUnit.SECONDS)
@@ -86,10 +86,6 @@ CharSequence text = execute(textView, "getText")
 Dependencies
 ---
 - Android 2.1 (API level 7) or greater
-
-Why Not Use Hamcrest matchers?
----
-Currently it has been decided not to use the Hamcrest libraries, opting instead for a simpler `Requirement`-based approach. This makes it easier to implement Requirements and means that Viewtils does not have that dependency on the Hamcrest libraries.
 
 Version
 ----
