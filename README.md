@@ -87,10 +87,6 @@ Dependencies
 ---
 - Android 2.1 (API level 7) or greater
 
-Version
-----
-pre-1.0
-
 License
 ----
 Apache License Version 2.0
