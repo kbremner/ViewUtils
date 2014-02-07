@@ -93,10 +93,10 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         };
     }
 
-    public static Requirement<TextView> textIs(final String content){
+    public static Requirement<TextView> textIs(final Object content){
         return new Requirement<TextView>() {
             @Override public boolean isMatch(TextView t) {
-                return t.getText().toString().equals(content);
+                return t.getText().toString().equals(content.toString());
             }
         };
     }
