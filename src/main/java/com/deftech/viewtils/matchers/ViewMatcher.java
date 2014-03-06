@@ -21,11 +21,13 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
         this.clicking = clicking;
     }
 
+    @Override
     public T where(Requirement<? super T> requirement){
         List<T> results = find(group, requirement, true);
         return (results.size() > 0) ? results.get(0) : null;
     }
 
+    @Override
     public List<T> allWhere(Requirement<? super T> requirement){
         return find(group, requirement, false);
     }
