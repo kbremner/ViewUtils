@@ -29,6 +29,7 @@ public class ViewGroupHelper extends Helper<ViewGroup,View> {
      * @param <T> the type of view to find
      * @return a {@link ViewMatcher} that can be used to find a view of the specified type
      */
+    @Override
     public <T extends View> ViewMatcher<T> find(Class<T> viewClass){
         return new ViewMatcher<T>(instance, viewClass, false);
     }
@@ -39,6 +40,7 @@ public class ViewGroupHelper extends Helper<ViewGroup,View> {
      * @param <T> the type of view to be clicked
      * @return A {@link ViewMatcher} to help in clicking a view
      */
+    @Override
     public <T extends View> ViewMatcher<T> click(Class<T> viewClass){
         return new ViewMatcher<T>(instance, viewClass, true);
     }
