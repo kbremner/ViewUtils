@@ -34,11 +34,16 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
 
 
     private List<T> find(ViewGroup group, Requirement<? super T> requirement, boolean findFirst){
-        List<T> results = new ArrayList<T>();
+        List<T> results;
 
-        // Need to deal with Spinner's differently
         if(group instanceof Spinner){
+            // Need to deal with Spinner's differently
             return find((Spinner) group, requirement, findFirst);
+        } else if (findFirst) {
+            // Only looking for one item, so set size of array list accordingly
+            results = new ArrayList<T>(1);
+        } else {
+            results = new ArrayList<T>();
         }
 
         // Loop through all the children
@@ -64,7 +69,13 @@ public class ViewMatcher<T extends View> extends BaseMatcher<T> {
     }
 
     private List<T> find(Spinner spinner, Requirement<? super T> requirement, boolean findFirst){
-        List<T> results = new ArrayList<T>();
+        List<T> results;
+        if (findFirst) {
+            // Only looking for one item, so set size of array list accordingly
+            results = new ArrayList<T>(1);
+        } else {
+            results = new ArrayList<T>();
+        }
         
         // Spinner only ever has one child... Need to use it's
         // adapter to recreate the child views for inspection
