@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 
 /***
@@ -21,15 +23,25 @@ import java.util.logging.Logger;
  * @see Handler#post(Runnable)
  */
 public class MethodRunner {
-    private final Logger logger = Logger.getLogger(MethodRunner.class.getSimpleName());
-    private final String methodName;
-    private List<Object> args = new ArrayList<Object>();
-    private List<Class<?>> paramTypes = new ArrayList<Class<?>>();
-    private final Object instance;
-    private Class<?> instanceClass;
-    private Handler handler;
-    private Long time;
-
+    private static final Logger logger = Logger.getLogger(MethodRunner.class.getSimpleName());
+    /* Staticly load the robolectric classes */
+    private static Class<?> SHADOW_LOOPER_CLASS;
+    private static Class<?> ROBOLECTRIC_CLASS;
+    private static Method SHADOWOF_LOOPER_METHOD;
+    private static Method RUNTOENDOFTASKS_METHOD;
+    static {
+        try {
+            SHADOW_LOOPER_CLASS = Class.forName("org.robolectric.shadows.ShadowLooper");
+            ROBOLECTRIC_CLASS = Class.forName("org.robolectric.Robolectric");
+            SHADOWOF_LOOPER_METHOD = ROBOLECTRIC_CLASS.getMethod("shadowOf", Looper.class);
+            RUNTOENDOFTASKS_METHOD = SHADOW_LOOPER_CLASS.getMethod("runToEndOfTasks");
+        } catch(ReflectiveOperationException e) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            logger.warning("Not using robolectric or unsupported version of robolectric used: " + sw.toString());
+        }
+    }
     /* Creates a map to allow primitive classes to be
      * wrapped in their corresponding wrapper class */
     private static final int NUM_PRIMITIVE_TYPES = 9;
@@ -45,6 +57,15 @@ public class MethodRunner {
         primMap.put(short.class, Short.class);
         primMap.put(void.class, Void.class);
     }
+
+
+    private final String methodName;
+    private List<Object> args = new ArrayList<Object>();
+    private List<Class<?>> paramTypes = new ArrayList<Class<?>>();
+    private final Object instance;
+    private Class<?> instanceClass;
+    private Handler handler;
+    private long time;
 
 
     public static MethodRunner execute(Object instance, String methodName){
@@ -141,7 +162,7 @@ public class MethodRunner {
             };
 
             // If a delay was defined, use it, else post now
-            handler.postDelayed(runnable, (time != null) ? time : 0);
+            handler.postDelayed(runnable, time);
 
             // if using Robolectric, need to advance the appropriate looper
             runRobolectricLooper();
@@ -174,21 +195,26 @@ public class MethodRunner {
         return primClass;
     }
 
-    private  void runRobolectricLooper(){
-        try {
-            // Get the required robolectric classes
-            Class<?> shadowLooperClass = Class.forName("org.robolectric.shadows.ShadowLooper");
-            Class<?> robolectricClass = Class.forName("org.robolectric.Robolectric");
-
-            // Get the appropriate looper
-            Looper looper = (handler != null) ? handler.getLooper() : Looper.getMainLooper();
-
-            // Get the ShadowLooper using Robolectric.shadowOf(Looper)
-            Object shadowLooper = robolectricClass.getMethod("shadowOf", Looper.class).invoke(null, looper);
-            // Run all the tasks posted to the looper
-            shadowLooperClass.getMethod("runToEndOfTasks").invoke(shadowLooper);
-        } catch (ReflectiveOperationException e) {
-            logger.fine("Not using Robolectric");
+    /***
+     * Advances the looper if using robolectric
+     */
+    private void runRobolectricLooper(){
+        if(ROBOLECTRIC_CLASS != null) {
+            logger.fine("Using robolectric, advancing looper");
+            try {
+                // Get the appropriate looper
+                Looper looper = (handler != null) ? handler.getLooper() : Looper.getMainLooper();
+    
+                // Get the ShadowLooper using Robolectric.shadowOf(Looper)
+                Object shadowLooper = SHADOWOF_LOOPER_METHOD.invoke(null, looper);
+                
+                // Run all the tasks posted to the looper
+                RUNTOENDOFTASKS_METHOD.invoke(shadowLooper);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException("Failed to execute method", e);
+            }
+        } else {
+            logger.fine("Not using robolectric");
         }
     }
 }
