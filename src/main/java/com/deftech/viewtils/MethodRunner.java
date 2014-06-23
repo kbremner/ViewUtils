@@ -35,7 +35,7 @@ public class MethodRunner {
             ROBOLECTRIC_CLASS = Class.forName("org.robolectric.Robolectric");
             SHADOWOF_LOOPER_METHOD = ROBOLECTRIC_CLASS.getMethod("shadowOf", Looper.class);
             RUNTOENDOFTASKS_METHOD = SHADOW_LOOPER_CLASS.getMethod("runToEndOfTasks");
-        } catch(ClassNotFoundException e) {
+        } catch(ReflectiveOperationException e) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
