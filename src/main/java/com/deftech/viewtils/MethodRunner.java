@@ -199,7 +199,7 @@ public class MethodRunner {
      * Advances the looper if using robolectric
      */
     private void runRobolectricLooper(){
-        if(robolectricClass != null) {
+        if(ROBOLECTRIC_CLASS != null) {
             logger.fine("Using robolectric, advancing looper");
             try {
                 // Get the appropriate looper
